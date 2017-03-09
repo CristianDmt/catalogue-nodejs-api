@@ -26,20 +26,23 @@ if ('development' == app.get('env')) {
     app.use(express.errorHandler());
 }
 
-app.get('/', controllers.index);
-
 // Frontend Templates
 console.log('Frontend components have been loaded...');
 
 // Backend API Routes
 app.post('/api/auth/create', authController.createAuth);
 app.post('/api/auth/request', authController.requestToken);
-//app.post('/api/auth/validate', auth.validateKey());
+app.post('/api/auth/validate/:token', authController.validateToken);
+app.post('/api/auth/validate', authController.validateToken);
 console.log('Backend API has been loaded...');
 
 http.createServer(app).listen(app.get('port'), function() {
     console.log('Started application on port ' + app.get('port') + '...');
 });
+
+app.get('/api*', controllers.index);
+app.post('/api*', controllers.index);
+app.get('/', controllers.index);
 
 /*app.use(function (req, res) {
     res.render('index', {

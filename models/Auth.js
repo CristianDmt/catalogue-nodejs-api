@@ -106,15 +106,15 @@ exports.requestToken = function(authUsername, authPassword, authRequest, callbac
             }).then(function() { }).catch(function(error) { console.error(error); });
 
             newToken.save().then(function() {
-                return callback(null, 'authorised', authToken);
+                return callback(null, 'auth_authorised', authToken);
             }).catch(function(error) {
                 console.log(error);
 
-                return callback(null, 'not_authorised', null);
+                return callback(null, 'auth_unauthorised', null);
             });
         }
         else if(matchResponse == false) {
-            return callback(null, 'not_authorised', null);
+            return callback(null, 'auth_unauthorised', null);
         }
         else {
             console.log(error);
@@ -124,4 +124,50 @@ exports.requestToken = function(authUsername, authPassword, authRequest, callbac
     }
 
     this.matchAuth(authUsername, authPassword, matchAuthCallback);
+}
+
+exports.validateToken = function(token, authRequest, callback) {
+    AuthToken.findOne({ token: token }, {}).then(function(jsonData) {
+        // We found the token. Excluding the invalid case.
+        if(jsonData) {
+            // We excluded the token theft possibility.
+            if (IP(authRequest).clientIp == jsonData.restrictedIP &&
+                authRequest.headers['user-agent'] == jsonData.restrictedAgent) {
+                var thisDate = Moment();
+                var expireAt = Moment(jsonData.expiresAt);
+                // We excluded the token expired possibility.
+                // Return token_valid flag.
+                if(thisDate < expireAt) {
+                    return callback(null, 'token_valid');
+                }
+                else {
+                    // Remove the token for gargabe collection.
+                    AuthToken.remove({ token: token }).then(function() {
+                        return callback(null, 'token_expired');
+                    }).catch(function(error) {
+                        console.log(error);
+
+                        return callback(null, 'unknown_error');
+                    });
+                }
+            }
+            else {
+                // Removed the token for safety reasons.
+                AuthToken.remove({ token: token }).then(function() {
+                    return callback(null, 'token_theft');
+                }).catch(function(error) {
+                    console.log(error);
+
+                    return callback(null, 'unknown_error');
+                });
+            }
+        }
+        else {
+            return callback(null, 'token_invalid');
+        }
+    }).catch(function(error) {
+       console.log(error);
+
+       return callback(null, 'unknown_error');
+    });
 }

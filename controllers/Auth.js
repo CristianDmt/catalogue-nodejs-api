@@ -23,7 +23,7 @@ exports.createAuth = function(req, res) {
 
 exports.requestToken = function(req, res) {
     var authCallback = function(error, authRequestResponse, authToken) {
-        if(authRequestResponse == 'authorised') {
+        if(authRequestResponse == 'auth_authorised') {
             res.json({
                 status: 'ok',
                 response: authRequestResponse,
@@ -41,6 +41,28 @@ exports.requestToken = function(req, res) {
     authModel.requestToken(req.body.username, req.body.password, req, authCallback);
 }
 
-exports.validateKey = function(req, res) {
-    res.json({ hey: "hoo" });
+exports.validateToken = function(req, res) {
+    if(!req.params.token) {
+        res.json({
+            status: 'error',
+            response: 'token_unset'
+        });
+    }
+
+    var authCallback = function(error, tokenState) {
+        if(tokenState == 'token_valid') {
+            res.json({
+                status: 'ok',
+                response: tokenState
+            });
+        }
+        else {
+            res.json({
+                status: 'error',
+                response: tokenState
+            });
+        }
+    }
+
+    authModel.validateToken(req.params.token, req, authCallback);
 }
