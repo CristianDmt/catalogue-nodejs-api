@@ -8,7 +8,7 @@ var authController = require('./controllers/Auth');
 
 var http = require('http');
 var path = require('path');
-var models = require("./models");
+var models = require('./models');
 var app = express();
 
 app.set('port', process.env.PORT || 3000);
@@ -33,7 +33,7 @@ console.log('Frontend components have been loaded...');
 
 // Backend API Routes
 app.post('/api/auth/create', authController.createAuth);
-//app.post('/api/auth/request', authController.makeKey);
+app.post('/api/auth/request', authController.requestToken);
 //app.post('/api/auth/validate', auth.validateKey());
 console.log('Backend API has been loaded...');
 

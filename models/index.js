@@ -7,5 +7,6 @@ var config = require(__dirname + '/../config/config.json')[env];
 
 var db = require('mongoose');
 db.connect(config.protocol + '://' + config.host + '/' + config.database);
+db.Promise = global.Promise;
 
 module.exports = db;

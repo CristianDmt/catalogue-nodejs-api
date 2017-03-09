@@ -2,31 +2,44 @@
 
 var Database = require('../models/index');
 var Auth = require('../models/AuthModel');
+var AuthToken = require('../models/AuthTokenModel');
+
+var Token = require('../helpers/TokenMaker');
+
+var Moment = require('moment');
+var Hash = require('js-sha512');
 var IP = require('ipware')().get_ip;
 
 exports.createAuth = function(authUsername, authPassword, authRequest, callback) {
     // Validate the Username and Password.
-    if(authUsername.length < 6 || authUsername.length > 16) {
-        return 'invalid_username';
+    if(typeof(authUsername) == 'undefined' || authUsername.length < 6 || authUsername.length > 16) {
+        return callback(null, 'invalid_username');
     }
 
-    if(authPassword.length < 6) {
-        return 'invalid_password';
+    if(typeof(authPassword) == 'undefined' || authPassword.length < 6) {
+        return callback(null, 'invalid_password');
     }
 
     // Check for Duplicates.
     Auth.count({ username: authUsername }).then(function(accountCount) {
         if(accountCount == 0) {
+            // Proceed with hashing the password.
+            var passwordSalt = Token.generateToken(64);
+            var passwordHash = Hash.sha512(authPassword + '$' + passwordSalt);
+
             var newAccount = new Auth({
                 username: authUsername,
-                password: authPassword,
-                registerDate: Date.now(),
+                password: passwordHash,
+                passwordSalt: passwordSalt,
+                registerDate: Moment(),
                 registerIP: IP(authRequest).clientIp
             });
 
             newAccount.save().then(function() {
                 return callback(null, 'account_created');
             }).catch(function(error) {
+                console.log(error);
+
                 return callback(error, 'unknown_error');
             });
         }
@@ -34,4 +47,81 @@ exports.createAuth = function(authUsername, authPassword, authRequest, callback)
             return callback(null, 'taken_username');
         }
     });
+}
+
+exports.getAuthSalt = function(authUsername, callback) {
+    Auth.findOne({ username: authUsername }, 'passwordSalt').then(function(data) {
+        return callback(null, data);
+    }).catch(function(error) {
+        console.log(error);
+
+        return callback(error, null);
+    });
+}
+
+exports.matchAuth = function(authUsername, authPassword, callback) {
+    var passwordSaltCallback = function(error, jsonData) {
+        if(jsonData) {
+            var passwordHash = Hash.sha512(authPassword + '$' + jsonData.passwordSalt);
+            Auth.findOne({username: authUsername, password: passwordHash}, {}).then(function(jsonData) {
+                if(jsonData) {
+                    return callback(null, jsonData, true);
+                }
+                else {
+                    return callback(null, null, false);
+                }
+            }).catch(function(error) {
+                console.log(error);
+
+                return callback(error, null, false);
+            });
+        }
+        else {
+            return callback(null, true);
+        }
+    }
+
+    this.getAuthSalt(authUsername, passwordSaltCallback);
+}
+
+exports.requestToken = function(authUsername, authPassword, authRequest, callback) {
+    var matchAuthCallback = function(error, jsonData, matchResponse) {
+        // Match response is true. We can now create a key and provide it to the client.
+        if(matchResponse == true) {
+            var authToken = Token.generateToken(64);
+            var newToken = new AuthToken({
+                authId: jsonData._id,
+                token: authToken,
+                restrictedIP: IP(authRequest).clientIp,
+                restrictedAgent: authRequest.headers['user-agent'],
+                createdAt: Moment(),
+                expiresAt: Moment().add(1, 'hours')
+            });
+
+            // Quick garbage collection. Cleaning up all the previous
+            // keys in order to prevent previous authentications.
+            AuthToken.remove({
+                restrictedIP: IP(authRequest).clientIp,
+                restrictedAgent: authRequest.headers['user-agent']
+            }).then(function() { }).catch(function(error) { console.error(error); });
+
+            newToken.save().then(function() {
+                return callback(null, 'authorised', authToken);
+            }).catch(function(error) {
+                console.log(error);
+
+                return callback(null, 'not_authorised', null);
+            });
+        }
+        else if(matchResponse == false) {
+            return callback(null, 'not_authorised', null);
+        }
+        else {
+            console.log(error);
+
+            return callback(null, 'unknown_error', null);
+        }
+    }
+
+    this.matchAuth(authUsername, authPassword, matchAuthCallback);
 }
