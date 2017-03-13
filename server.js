@@ -5,6 +5,7 @@ var bodyParser = require('body-parser');
 var api = {};
 var controllers = require('./controllers');
 var authController = require('./controllers/Auth');
+var instController = require('./controllers/Institution');
 
 var http = require('http');
 var path = require('path');
@@ -32,8 +33,16 @@ console.log('Frontend components have been loaded...');
 // Backend API Routes
 app.post('/api/auth/create', authController.createAuth);
 app.post('/api/auth/request', authController.requestToken);
-app.post('/api/auth/validate/:token', authController.validateToken);
-app.post('/api/auth/validate', authController.validateToken);
+app.get('/api/auth/validate/:token', authController.validateToken);
+app.get('/api/auth/validate', authController.validateToken);
+app.post('/api/institution/create', instController.createInstitution);
+app.get('/api/institution/list', instController.listInstitution);
+app.get('/api/institution/delete/:id', instController.deleteInstitution);
+app.get('/api/institution/delete', instController.deleteInstitution);
+app.post('/api/class/create');
+app.post('/api/class/delete');
+app.post('/api/course/create');
+app.post('/api/course/delete');
 console.log('Backend API has been loaded...');
 
 http.createServer(app).listen(app.get('port'), function() {

@@ -45,7 +45,7 @@ exports.validateToken = function(req, res) {
     if(!req.params.token) {
         res.json({
             status: 'error',
-            response: 'token_unset'
+            response: 'token_not_set'
         });
     }
 

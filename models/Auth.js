@@ -13,11 +13,11 @@ var IP = require('ipware')().get_ip;
 exports.createAuth = function(authUsername, authPassword, authRequest, callback) {
     // Validate the Username and Password.
     if(typeof(authUsername) == 'undefined' || authUsername.length < 6 || authUsername.length > 16) {
-        return callback(null, 'invalid_username');
+        return callback(null, 'auth_invalid_username');
     }
 
     if(typeof(authPassword) == 'undefined' || authPassword.length < 6) {
-        return callback(null, 'invalid_password');
+        return callback(null, 'auth_invalid_password');
     }
 
     // Check for Duplicates.
@@ -36,7 +36,7 @@ exports.createAuth = function(authUsername, authPassword, authRequest, callback)
             });
 
             newAccount.save().then(function() {
-                return callback(null, 'account_created');
+                return callback(null, 'auth_created');
             }).catch(function(error) {
                 console.log(error);
 
@@ -44,7 +44,7 @@ exports.createAuth = function(authUsername, authPassword, authRequest, callback)
             });
         }
         else {
-            return callback(null, 'taken_username');
+            return callback(null, 'auth_taken_username');
         }
     });
 }
