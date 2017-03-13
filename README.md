@@ -11,3 +11,15 @@
 * /api/auth/validate/{token}
     * @params(_get_) { token: String(64) }
     * @returns { status: String, response: String }
+    
+* /api/institution/create
+    * @params(_post_) { name: String }
+    * @returns { status: String, response: String }
+    
+* /api/institution/list
+    * @params(_get_) { }
+    * @returns { status: String, response: String, data: JSON }
+    
+* /api/institution/delete/{id}
+    * @params(_get_) { id: String }
+    * @returns { status: String, response: String }
