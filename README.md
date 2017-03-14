@@ -23,3 +23,16 @@
 * /api/institution/delete/{id}
     * @params(_get_) { id: String }
     * @returns { status: String, response: String }
+    
+* /api/class/create/{inst}
+    * @params(_get_) { inst: String }
+    * @params(_post_) { name: String }
+    * @returns { status: String, response: String }
+    
+* /api/class/list/{inst}
+    * @params(_get_) { inst: String }
+    * @returns { status: String, response: String, data: JSON }
+    
+* /api/class/delete/{id}
+    * @params(_get_) { id: String }
+    * @returns { status: String, response: String }
