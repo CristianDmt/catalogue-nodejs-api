@@ -12,7 +12,7 @@ exports.createInstitution = function(instName, callback) {
 
     var newInst = new Inst({
         name: instName,
-        foundedDate: Moment()
+        createdDate: Moment()
     });
 
     newInst.save().then(function(success) {

@@ -6,6 +6,7 @@ var api = {};
 var controllers = require('./controllers');
 var authController = require('./controllers/Auth');
 var instController = require('./controllers/Institution');
+var classController = require('./controllers/Class');
 
 var http = require('http');
 var path = require('path');
@@ -35,14 +36,21 @@ app.post('/api/auth/create', authController.createAuth);
 app.post('/api/auth/request', authController.requestToken);
 app.get('/api/auth/validate/:token', authController.validateToken);
 app.get('/api/auth/validate', authController.validateToken);
+
+// Institution API Routes
 app.post('/api/institution/create', instController.createInstitution);
 app.get('/api/institution/list', instController.listInstitution);
 app.get('/api/institution/delete/:id', instController.deleteInstitution);
 app.get('/api/institution/delete', instController.deleteInstitution);
-app.post('/api/class/create');
-app.post('/api/class/delete');
-app.post('/api/course/create');
-app.post('/api/course/delete');
+
+// Classes API Routes
+app.post('/api/class/create/:inst', classController.createClass);
+app.post('/api/class/create', classController.createClass);
+app.get('/api/class/create', classController.createClass);
+app.get('/api/class/list/:inst', classController.listClass);
+app.get('/api/class/list', classController.listClass);
+app.get('/api/class/delete/:id', classController.deleteClass);
+app.get('/api/class/delete', classController.deleteClass);
 console.log('Backend API has been loaded...');
 
 http.createServer(app).listen(app.get('port'), function() {

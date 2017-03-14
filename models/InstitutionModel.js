@@ -5,7 +5,9 @@ var Database = require('../models/index');
 console.log("Compiling Institution Schema...");
 var instSchema = new Database.Schema({
         name: String,
-        foundedDate: { type: Date, default: Date.now() }
+        countryCode: { type: String, default: "" },
+        city: { type: String, default: "" },
+        createdDate: { type: Date, default: Date.now() }
     }, {
         versionKey: false
     }
