@@ -3,6 +3,7 @@
 var Database = require('../models/index');
 var Auth = require('../models/AuthModel');
 var AuthToken = require('../models/AuthTokenModel');
+var Permission = require('../models/Permission');
 
 var Token = require('../helpers/TokenMaker');
 
@@ -35,8 +36,15 @@ exports.createAuth = function(authUsername, authPassword, authRequest, callback)
                 registerIP: IP(authRequest).clientIp
             });
 
-            newAccount.save().then(function() {
-                return callback(null, 'auth_created');
+            newAccount.save().then(function(newAccount) {
+                Permission.setPermission(newAccount._id, 'normal', function authSetPermissionCallback(error, permResponse) {
+                    if(permResponse == 'global_access_set') {
+                        return callback(null, 'auth_created');
+                    }
+                    else {
+                        return callback(null, 'auth_created_no_permission');
+                    }
+                });
             }).catch(function(error) {
                 console.log(error);
 
@@ -46,6 +54,16 @@ exports.createAuth = function(authUsername, authPassword, authRequest, callback)
         else {
             return callback(null, 'auth_taken_username');
         }
+    });
+}
+
+exports.getAuth = function(authId, callback) {
+    Auth.findOne({ _id: authId }).then(function(data) {
+        return callback(null, data);
+    }).catch(function(error) {
+        console.log(error);
+
+        return callback(null, null);
     });
 }
 
@@ -138,7 +156,7 @@ exports.validateToken = function(token, authRequest, callback) {
                 // We excluded the token expired possibility.
                 // Return token_valid flag.
                 if(thisDate < expireAt) {
-                    return callback(null, 'token_valid');
+                    return callback(null, 'token_valid', jsonData.authId);
                 }
                 else {
                     // Remove the token for gargabe collection.
