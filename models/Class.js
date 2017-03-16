@@ -2,31 +2,46 @@
 
 var Database = require('../models/index');
 var Class = require('../models/ClassModel');
+var Inst = require('../models/Institution');
 
 var Moment = require('moment');
 
 exports.createClass = function(instId, className, callback) {
     if(typeof(className) == 'undefined' || className.length < 3 || className.length > 100) {
-        callback(null, 'institution_invalid_name');
+        return callback(null, 'class_invalid_name');
     }
 
-    var newClass = new Class({
-        instId: instId,
-        name: className,
-        createdDate: Moment()
-    });
+    var createClassCallback = function(error, jsonData) {
+        if(jsonData) {
+            var newClass = new Class({
+                instId: instId,
+                name: className,
+                createdDate: Moment()
+            });
 
-    newClass.save().then(function(success) {
-        return callback(null, 'class_created');
-    }).catch(function(error) {
-        console.log(error);
-        return callback(null, 'unknown_error');
-    });
+            newClass.save().then(function() {
+                return callback(null, 'class_created');
+            }).catch(function (error) {
+                console.log(error);
+                return callback(null, 'unknown_error');
+            });
+        }
+        else {
+            return callback(null, 'institution_not_existent');
+        }
+    }
+
+    Inst.getInstitution(instId, createClassCallback);
 }
 
 exports.listClass = function(instId, callback) {
     Class.find({ instId: instId }, 'name').then(function(jsonData) {
-        return callback(null, 'class_list_retrieved', jsonData);
+        if(jsonData) {
+            return callback(null, 'class_list_retrieved', jsonData);
+        }
+        else {
+            return callback(null, 'institution_not_existent', jsonData);
+        }
     }).catch(function(error) {
         console.log(error);
         return callback(null, 'unknown_error', null);
@@ -41,6 +56,9 @@ exports.getClass = function(classId, callback) {
         else {
             callback(null, null);
         }
+    }).catch(function(error) {
+        console.log(error);
+        return callback(null, null);
     });
 }
 

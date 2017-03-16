@@ -7,7 +7,7 @@ var Moment = require('moment');
 
 exports.createCourse = function(instId, courseName, callback) {
     if(typeof(courseName) == 'undefined' || courseName.length < 3 || courseName.length > 100) {
-        callback(null, 'institution_invalid_name');
+        callback(null, 'course_invalid_name');
     }
 
     var newCourse = new Course({
@@ -26,7 +26,12 @@ exports.createCourse = function(instId, courseName, callback) {
 
 exports.listCourse = function(instId, callback) {
     Course.find({ instId: instId }, 'name').then(function(jsonData) {
-        return callback(null, 'course_list_retrieved', jsonData);
+        if(jsonData) {
+            return callback(null, 'course_list_retrieved', jsonData);
+        }
+        else {
+            return callback(null, 'institution_not_existent', jsonData);
+        }
     }).catch(function(error) {
         console.log(error);
         return callback(null, 'unknown_error', null);
@@ -41,6 +46,9 @@ exports.getCourse = function(courseId, callback) {
         else {
             callback(null, null);
         }
+    }).catch(function(error) {
+        console.log(error);
+        return callback(null, null);
     });
 }
 

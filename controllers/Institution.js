@@ -3,6 +3,13 @@
 var instModel = require('../models/Institution');
 
 exports.createInstitution = function(req, res) {
+    if(!res.locals.isAuth || res.locals.globalPermissions != 'sysadmin') {
+        res.json({
+            status: 'error',
+            response: 'access_denied'
+        });
+    }
+
     var instCallback = function(error, instCreationResponse) {
         if(instCreationResponse == 'institution_created') {
             res.json({
