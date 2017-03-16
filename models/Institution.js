@@ -35,11 +35,14 @@ exports.listInstitution = function(callback) {
 exports.getInstitution = function(instId, callback) {
     Inst.findOne({ _id: instId }, {}).then(function(jsonData) {
         if(jsonData) {
-            callback(null, jsonData);
+            return callback(null, jsonData);
         }
         else {
-            callback(null, null);
+            return callback(null, null);
         }
+    }).catch(function(error) {
+        console.log(error);
+        return callback(null, null);
     });
 }
 
