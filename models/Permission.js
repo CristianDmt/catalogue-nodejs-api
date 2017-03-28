@@ -2,7 +2,6 @@
 
 var Auth = require('../models/Auth');
 var GlobalPermission = require('../models/PermissionGlobalModel');
-var InstitutionPermission = require('../models/PermissionInstitutionModel');
 
 exports.setPermission = function(authId, access, callback){
     if(access.toLowerCase() != 'normal' && access.toLowerCase() != 'sysadmin') {
@@ -16,10 +15,10 @@ exports.setPermission = function(authId, access, callback){
                 access: access.toUpperCase()
             });
 
-            GlobalPermission.count({authId: authId}).then(function (count) {
+            GlobalPermission.count({ authId: authId }).then(function (count) {
                 if (count > 0) {
-                    GlobalPermission.update({authId: authId}, {$set: {access: access}}).then(function () {
-                        return callback(null, 'global_access_set');
+                    GlobalPermission.update({ authId: authId }, {$set: {access: access}}).then(function () {
+                        return callback(null, 'global_access_updated');
                     }).catch(function (error) {
                         console.log(error);
                         return callback(null, 'unknown_error');
@@ -54,7 +53,7 @@ exports.getPermission = function(authId, callback) {
                     return callback(null, jsonData.access.toLowerCase());
                 }
                 else {
-                    return callback(true, 'auth_access_unset');
+                    return callback(true, 'auth_access_not_set');
                 }
             }).catch(function(error) {
                 console.log(error);

@@ -2,7 +2,7 @@
 
 var Database = require('../models/index');
 
-console.log("Compiling Permission Inst Schema...");
+console.log("Compiling Permission Institution Schema...");
 var permInstSchema = new Database.Schema({
         authId: String,
         instId: String,
@@ -12,7 +12,7 @@ var permInstSchema = new Database.Schema({
     }
 );
 
-console.log("Exporting Permission Inst Model...");
+console.log("Exporting Permission Institution Model...");
 var permInstModel = Database.model('PermissionInstitution', permInstSchema, 'PermissionInstitutions');
 
 module.exports = permInstModel;
