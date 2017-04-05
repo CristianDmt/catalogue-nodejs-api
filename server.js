@@ -73,10 +73,11 @@ app.get('/api/:token/course/list/:inst', courseController.listCourse);
 app.get('/api/:token/course/list', courseController.listCourse);
 app.get('/api/:token/course/delete/:id', courseController.deleteCourse);
 app.get('/api/:token/course/delete', courseController.deleteCourse);
+
 console.log('Backend API has been loaded...');
 
 http.createServer(app).listen(app.get('port'), function() {
-    console.log('Started application on port ' + app.get('port') + '...');
+    console.log('Started server on port ' + app.get('port') + '...');
 });
 
 app.get('/api*', controllers.index);

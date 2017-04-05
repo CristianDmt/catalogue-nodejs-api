@@ -6,9 +6,10 @@ var InstitutionPermission = require('../models/PermissionInstitutionModel');
 
 exports.setInstitutionPermission = function(authId, instId, access, callback){
     if(
-        access.toLowerCase() != 'student'
-        && access.toLowerCase() != 'parent'
+        access.toLowerCase() != 'parent'
+        && access.toLowerCase() != 'student'
         && access.toLowerCase() != 'teacher'
+        && access.toLowerCase() != 'master'
         && access.toLowerCase() != 'director'
     ) {
         return callback(null, 'unrecognised_institution_access');
@@ -24,12 +25,12 @@ exports.setInstitutionPermission = function(authId, instId, access, callback){
                         access: access.toUpperCase()
                     });
 
-                    InstitutionPermission.count({authId: authId, instId: instId}).then(function (count) {
+                    InstitutionPermission.count({ authId: authId, instId: instId }).then(function (count) {
                         if (count > 0) {
                             InstitutionPermission.update({
                                 authId: authId,
                                 instId: instId
-                            }, {$set: {access: access}}).then(function () {
+                            }, { $set: { access: access.toUpperCase() } }).then(function () {
                                 return callback(null, 'institution_access_updated');
                             }).catch(function (error) {
                                 console.log(error);
