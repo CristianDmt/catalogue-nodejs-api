@@ -6,7 +6,8 @@ var InstitutionPermission = require('../models/PermissionInstitutionModel');
 
 exports.setInstitutionPermission = function(authId, instId, access, callback){
     if(
-        access.toLowerCase() != 'parent'
+        access.toLowerCase() != 'new'
+        && access.toLowerCase() != 'parent'
         && access.toLowerCase() != 'student'
         && access.toLowerCase() != 'teacher'
         && access.toLowerCase() != 'master'

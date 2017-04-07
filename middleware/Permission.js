@@ -7,6 +7,7 @@ exports.retrieveGlobalPermission = function(req, res, next) {
     Auth.validateToken(req.params.token, req, function(error, isAuth, authId) {
         if(isAuth == 'token_valid') {
             res.locals.isAuth = true;
+            res.locals.authId = authId;
 
             Permission.getPermission(authId, function permissionCallback(error, globalPermission) {
                 if(error) {
