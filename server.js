@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 
 var controllers = require('./controllers');
 var authController = require('./controllers/Auth');
+var requestController = require('./controllers/Request');
 var instController = require('./controllers/Institution');
 var classController = require('./controllers/Class');
 var courseController = require('./controllers/Course');
@@ -51,6 +52,16 @@ app.post('/api/auth/create', authController.createAuth);
 app.post('/api/auth/request', authController.requestToken);
 app.get('/api/auth/validate/:token', authController.validateToken);
 app.get('/api/auth/validate', authController.validateToken);
+
+// Request API Routes
+app.get('/api/:token/request/make/:inst', requestController.makeRequest);
+app.get('/api/:token/request/make', requestController.makeRequest);
+app.get('/api/:token/request/cancel/:inst', requestController.cancelRequest);
+app.get('/api/:token/request/cancel', requestController.cancelRequest);
+app.get('/api/:token/request/accept/:req', requestController.acceptRequest);
+app.get('/api/:token/request/accept', requestController.acceptRequest);
+app.get('/api/:token/request/deny/:req', requestController.denyRequest);
+app.get('/api/:token/request/deny', requestController.denyRequest);
 
 // Institution API Routes
 app.post('/api/:token/institution/create', instController.createInstitution);
