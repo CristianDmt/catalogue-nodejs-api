@@ -5,7 +5,7 @@ var Database = require('../models/index');
 console.log("Compiling Class Schema...");
 var classSchema = new Database.Schema({
         instId: String,
-        name: String,
+        name: { type: String, required: true },
         createdDate: Date,
         completed: { type: Boolean, default: false }
     }, {
