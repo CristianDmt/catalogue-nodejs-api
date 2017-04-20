@@ -7,7 +7,7 @@ var Moment = require('moment');
 
 exports.createCourse = function(instId, courseName, callback) {
     if(typeof(courseName) == 'undefined' || courseName.length < 3 || courseName.length > 100) {
-        callback(null, 'course_invalid_name');
+        return callback(null, 'course_invalid_name');
     }
 
     var newCourse = new Course({
