@@ -10,7 +10,6 @@ exports.setInstitutionPermission = function(authId, instId, access, callback){
         && access.toLowerCase() != 'parent'
         && access.toLowerCase() != 'student'
         && access.toLowerCase() != 'teacher'
-        && access.toLowerCase() != 'master'
         && access.toLowerCase() != 'director'
     ) {
         return callback(null, 'unrecognised_institution_access');
