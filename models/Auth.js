@@ -113,7 +113,7 @@ exports.requestToken = function(authUsername, authPassword, authRequest, callbac
                 restrictedIP: IP(authRequest).clientIp,
                 restrictedAgent: authRequest.headers['user-agent'],
                 createdAt: Moment(),
-                expiresAt: Moment().add(1, 'hours')
+                expiresAt: Moment().add(6, 'hours')
             });
 
             // Quick garbage collection. Cleaning up all the previous
