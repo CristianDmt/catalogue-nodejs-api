@@ -1,0 +1,60 @@
+body {
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: bold;
+    background-color: #FAFAFA;
+    margin: 0;
+    padding: 0;
+}
+
+.md-opacity-search {
+    background-color: rgb(255, 255, 255) !important;
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    transition: background-color 500ms;
+}
+
+.md-opacity-search .md-menu-showing {
+    background-color: rgb(255, 255, 255);
+}
+
+.md-flex-align-icon {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.md-inline-flex {
+    display: inline-flex;
+}
+
+.md-table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.md-table-span {
+    width: 100%;
+}
+
+.md-regular-tall {
+    height: 30px;
+}
+
+.md-vertical-align {
+    display: inline-flex;
+    vertical-align: middle;
+}
+
+.md-scrollbar::-webkit-scrollbar-track
+{
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.md-scrollbar::-webkit-scrollbar
+{
+    width: 6px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.md-scrollbar::-webkit-scrollbar-thumb
+{
+    background-color: rgba(0, 0, 0, 0.2);
+}

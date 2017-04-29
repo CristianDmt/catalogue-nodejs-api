@@ -1,0 +1,40 @@
+<md-toolbar layout="row" class="md-toolbar-tools md-hue-2"
+            md-whiteframe="4"
+            ng-controller="InterfaceController">
+    <div class="md-toolbar-tools">
+        <md-button class="md-icon-button" ng-click="toggle()" aria-label="Menu">
+            <md-icon md-svg-icon="/img/icons/menu.svg"></md-icon>
+        </md-button>
+
+        <h2 md-truncate flex hide show-gt-sm>vCatalogue</h2>
+
+        <md-autocomplete
+                md-no-cache="true"
+                md-selected-item="selectedItem"
+                md-search-text="searchText"
+                md-items="item in querySearch(searchText).data"
+                md-item-text="item.name"
+                md-min-length="0"
+                placeholder="Search for anything..."
+                flex="70"
+                class="md-opacity-search">
+            <md-item-template>
+                <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.name}}</span>
+            </md-item-template>
+            <md-not-found>
+                No results matching your search could be found.
+                <a ng-click="ctrl.newState(ctrl.searchText)">Try again!</a>
+            </md-not-found>
+        </md-autocomplete>
+
+        <md-button class="md-icon-button" aria-label="Notifications">
+            <md-tooltip>Notifications</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/notification.svg"></md-icon>
+        </md-button>
+
+        <md-button class="md-icon-button" aria-label="Account">
+            <md-tooltip>Account</md-tooltip>
+            <md-icon md-svg-icon="/img/icons/more.svg"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
