@@ -9,8 +9,8 @@ var markSchema = new Database.Schema({
         courseId: String,
         studentId: String,
         teacherId: String,
-        mark: { type: Float, default: 1 },
-        period: { type: Integer, default: 1 },
+        mark: { type: Number, default: 1 },
+        period: { type: Number, default: 1 },
         type: { type: String, default: 'mark' },
         createdDate: Date
     }, {

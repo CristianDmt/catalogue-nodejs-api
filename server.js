@@ -14,6 +14,9 @@ var requestController = require('./controllers/Request');
 var instController = require('./controllers/Institution');
 var classController = require('./controllers/Class');
 var courseController = require('./controllers/Course');
+var associateController = require('./controllers/Associate');
+var permissionController = require('./controllers/Permission');
+var searchController = require('./controllers/Search');
 
 var permissionMiddleware = require('./middleware/Permission');
 
@@ -42,6 +45,11 @@ if ('development' == app.get('env')) {
 }
 
 // Frontend Templates
+app.get('/template/demo/1', function(req, res) { res.render('demo1') });
+app.get('/template/demo/2', function(req, res) { res.render('demo2') });
+app.get('/template/demo/3', function(req, res) { res.render('demo3') });
+app.get('/template/parent/student/list', function(req, res) { res.render('parentStudentList') });
+app.get('/template/parent/student/situation', function(req, res) { res.render('parentStudentSituation') });
 console.log('Frontend components have been loaded...');
 
 // Mounting Middleware API
@@ -85,6 +93,12 @@ app.get('/api/course/list', courseController.listCourse);
 app.get('/api/course/delete/:id', courseController.deleteCourse);
 app.get('/api/course/delete', courseController.deleteCourse);
 
+// Search API Routes
+app.post('/api/search', searchController.querySearch);
+
+// Demo API Routes
+app.get('/api/demo', associateController.demoAssoc);
+
 console.log('Backend API has been loaded...');
 
 http.createServer(app).listen(app.get('port'), function() {
@@ -94,9 +108,3 @@ http.createServer(app).listen(app.get('port'), function() {
 app.get('/api*', controllers.index);
 app.post('/api*', controllers.index);
 app.get('/*', controllers.index);
-
-/*app.use(function (req, res) {
-    res.render('index', {
-        title: 'VirtualCatalogue'
-    });
-});*/

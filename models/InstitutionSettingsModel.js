@@ -6,8 +6,8 @@ console.log("Compiling Institution Settings Schema...");
 var instSettingsSchema = new Database.Schema({
         instId: { type: String, required: true },
         notationSystem: { type: String, default: 'eu' },
-        periodsCount: { type: Integer, default: 1 },
-        currentPeriod: { type: Integer, default: 1 },
+        periodsCount: { type: Number, default: 1 },
+        currentPeriod: { type: Number, default: 1 },
         acceptRequests: { type: Boolean, default: true }
     }, {
         versionKey: false

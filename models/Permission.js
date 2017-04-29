@@ -17,7 +17,11 @@ exports.setPermission = function(authId, access, callback){
 
             GlobalPermission.count({ authId: authId }).then(function (count) {
                 if (count > 0) {
-                    GlobalPermission.update({ authId: authId }, {$set: {access: access}}).then(function () {
+                    GlobalPermission.update({ authId: authId }, {
+                        $set: {
+                            access: access
+                        }
+                    }).then(function () {
                         return callback(null, 'global_access_updated');
                     }).catch(function (error) {
                         console.log(error);
