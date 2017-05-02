@@ -95,7 +95,7 @@ exports.matchAuth = function(authUsername, authPassword, callback) {
             });
         }
         else {
-            return callback(null, true);
+            return callback(null, null, true);
         }
     }
 
