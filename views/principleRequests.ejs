@@ -1,0 +1,41 @@
+<md-toolbar class="md-medium-tall">
+    <md-toolbar-tools layout="row" layout-padding layout-align="left center">
+        <h4 md-truncate>
+            <i class="material-icons md-flex-align-icon md-avatar-icon">playlist_add_check</i>
+            <span>Institution Requests</span>
+        </h4>
+    </md-toolbar-tools>
+</md-toolbar>
+<md-content md-whiteframe="2">
+    <md-list>
+        <md-subheader class="md-no-sticky">Requests By</md-subheader>
+        <md-list-item ng-repeat="id in [1, 2, 3, 4, 5]">
+            <p>Cristian Dumitrov</p>
+
+            <md-menu class="md-secondary">
+                <md-button class="md-icon-button">
+                    <i class="material-icons md-flex-align-icon">more_vert</i>
+                </md-button>
+                <md-menu-content width="4">
+                    <md-menu-item>
+                        <md-button ng-click="requestAccept(demoId)">
+                            Accept Request
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button>
+                            Deny Request
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-divider></md-menu-divider>
+                    <md-menu-item>
+                        <md-button>
+                            Close Menu
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+
+        </md-list-item>
+    </md-list>
+</md-content>

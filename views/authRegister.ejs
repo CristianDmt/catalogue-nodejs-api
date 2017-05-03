@@ -1,0 +1,27 @@
+<md-toolbar class="md-medium-tall">
+    <md-toolbar-tools layout="row" layout-padding layout-align="left center">
+        <h4 md-truncate>
+            <i class="material-icons md-flex-align-icon md-avatar-icon">lock</i>
+            <span>Account Creation</span>
+        </h4>
+    </md-toolbar-tools>
+</md-toolbar>
+<md-content md-whiteframe="2">
+    <md-content layout="column" layout-align="center center">
+        <md-input-container flex="50">
+            <label>Username</label>
+            <input required name="username" ng-model="auth.username">
+            <div ng-messages="username.$error">
+                <div ng-message="required">A username is required to authenticate.</div>
+            </div>
+        </md-input-container>
+        <md-input-container flex="50">
+            <label>Password</label>
+            <input required type="password" name="password" ng-model="auth.password">
+            <div ng-messages="password.$error">
+                <div ng-message="required">A password is required to authenticate.</div>
+            </div>
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-click="authRegister()">Register</md-button>
+    </md-content>
+</md-content>

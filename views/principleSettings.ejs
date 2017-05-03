@@ -1,0 +1,35 @@
+<md-toolbar class="md-medium-tall">
+    <md-toolbar-tools layout="row" layout-padding layout-align="left center">
+        <h4 md-truncate>
+            <i class="material-icons md-flex-align-icon md-avatar-icon">settings</i>
+            <span>Institution Settings</span>
+        </h4>
+    </md-toolbar-tools>
+</md-toolbar>
+<md-content md-whiteframe="2">
+    <md-list>
+        <md-list-item>
+            <p>Allow New Requests</p>
+
+            <md-switch ng-model="allow" aria-label="Allow Requests"></md-switch>
+        </md-list-item>
+        <md-list-item>
+            <p>Division Type</p>
+
+            <md-select ng-model="division" placeholder="Division" class="md-no-underline md-secondary">
+                <md-option value="axel">Unique</md-option>
+                <md-option value="axe" selected>Semester</md-option>
+                <md-option value="sword">Trimester</md-option>
+                <md-option value="wand">Quarter</md-option>
+            </md-select>
+        </md-list-item>
+        <md-list-item>
+            <p>Current Period</p>
+
+            <md-select ng-model="period" placeholder="Current" class="md-no-underline md-secondary">
+                <md-option value="axel">Semester I</md-option>
+                <md-option value="axe">Semester II</md-option>
+            </md-select>
+        </md-list-item>
+    </md-list>
+</md-content>

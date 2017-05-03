@@ -2,13 +2,13 @@
 <html ng-app="app" charset="utf8">
 <% include includes/header %>
 
-<body ng-cloak layout="column" ng-controller="MainController as app">
+<body ng-cloak layout="column">
 <% include includes/nav %>
 
 <div flex layout="row">
     <% include includes/sidenav %>
 
-    <md-content flex id="content" layout-padding ng-view></md-content>
+    <md-content flex id="content" layout-padding ng-controller="MainController as app" ng-view></md-content>
 </div>
 </body>
 </html>
