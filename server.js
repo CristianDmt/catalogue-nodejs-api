@@ -48,8 +48,17 @@ if ('development' == app.get('env')) {
 app.get('/template/demo/1', function(req, res) { res.render('demo1') });
 app.get('/template/demo/2', function(req, res) { res.render('demo2') });
 app.get('/template/demo/3', function(req, res) { res.render('demo3') });
+app.get('/template/login', function(req, res) { res.render('authLogin') });
+app.get('/template/register', function(req, res) { res.render('authRegister') });
+app.get('/template/student/situation', function(req, res) { res.render('studentSituation') });
 app.get('/template/parent/student/list', function(req, res) { res.render('parentStudentList') });
 app.get('/template/parent/student/situation', function(req, res) { res.render('parentStudentSituation') });
+app.get('/template/institution/permissions', function(req, res) { res.render('principlePermissions') });
+app.get('/template/institution/associations', function(req, res) { res.render('principleAssociations') });
+app.get('/template/institution/requests', function(req, res) { res.render('principleRequests') });
+app.get('/template/institution/settings', function(req, res) { res.render('principleSettings') });
+app.get('/template/institution/courses', function(req, res) { res.render('principleCourses') });
+app.get('/template/institution/classes', function(req, res) { res.render('principleClasses') });
 console.log('Frontend components have been loaded...');
 
 // Mounting Middleware API
@@ -94,6 +103,7 @@ app.get('/api/course/delete/:id', courseController.deleteCourse);
 app.get('/api/course/delete', courseController.deleteCourse);
 
 // Search API Routes
+app.get('/api/search', searchController.querySearch);
 app.post('/api/search', searchController.querySearch);
 
 // Demo API Routes

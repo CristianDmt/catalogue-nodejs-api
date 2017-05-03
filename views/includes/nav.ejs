@@ -1,40 +1,87 @@
 <md-toolbar layout="row" class="md-toolbar-tools md-hue-2"
             md-whiteframe="4"
-            ng-controller="InterfaceController">
+            ng-controller="InterfaceController as Interface">
     <div class="md-toolbar-tools">
         <md-button class="md-icon-button" ng-click="toggle()" aria-label="Menu">
-            <md-icon md-svg-icon="/img/icons/menu.svg"></md-icon>
+            <md-icon><i class="material-icons">menu</i></md-icon>
         </md-button>
 
         <h2 md-truncate flex hide show-gt-sm>vCatalogue</h2>
 
         <md-autocomplete
                 md-no-cache="true"
-                md-selected-item="selectedItem"
+                md-selected-item="Interface.selectedItem"
                 md-search-text="searchText"
-                md-items="item in querySearch(searchText).data"
+                md-items="item in Interface.querySearch().data"
                 md-item-text="item.name"
                 md-min-length="0"
                 placeholder="Search for anything..."
-                flex="70"
+                flex="75"
                 class="md-opacity-search">
             <md-item-template>
-                <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.name}}</span>
+                <span md-highlight-text="searchText" md-highlight-flags="^i">{{item.name}}</span>
             </md-item-template>
             <md-not-found>
                 No results matching your search could be found.
-                <a ng-click="ctrl.newState(ctrl.searchText)">Try again!</a>
+                <a ng-click="newState(searchText)">Try again!</a>
             </md-not-found>
         </md-autocomplete>
 
-        <md-button class="md-icon-button" aria-label="Notifications">
-            <md-tooltip>Notifications</md-tooltip>
-            <md-icon md-svg-icon="/img/icons/notification.svg"></md-icon>
-        </md-button>
+        <md-menu md-position-mode="target-right target">
+            <md-button class="md-icon-button" aria-label="Account" ng-click="openNotificationsMenu($mdMenu, $event)">
+                <md-tooltip>Notifications</md-tooltip>
+                <md-icon><i class="material-icons">notifications</i></md-icon>
+            </md-button>
+            <md-menu-content width="6">
+                <md-subheader class="md-no-sticky">Notifications</md-subheader>
+                <md-menu-item>
+                    <md-button>
+                        <md-icon class="md-flex-align-icon"><i class="material-icons">info</i></md-icon>
+                        Cristian Andrei - Mark: 10 - Mathematics
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button>
+                        <md-icon class="md-flex-align-icon"><i class="material-icons">warning</i></md-icon>
+                        Cristian Andrei - Skipped - Mathematics
+                    </md-button>
+                </md-menu-item>
+                <md-menu-divider></md-menu-divider>
+                <md-menu-item>
+                    <md-button>
+                        <md-icon class="md-flex-align-icon"><i class="material-icons">notifications_off</i></md-icon>
+                        Notification Mode
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
 
-        <md-button class="md-icon-button" aria-label="Account">
-            <md-tooltip>Account</md-tooltip>
-            <md-icon md-svg-icon="/img/icons/more.svg"></md-icon>
-        </md-button>
+        <md-menu md-position-mode="target-right target">
+            <md-button class="md-icon-button" aria-label="Account" ng-click="openAccountMenu($mdMenu, $event)">
+                <md-tooltip>Account</md-tooltip>
+                <md-icon><i class="material-icons">more_vert</i></md-icon>
+            </md-button>
+            <md-menu-content width="2">
+                <md-subheader class="md-no-sticky">Quick Access</md-subheader>
+                <md-menu-item>
+                    <md-button>
+                        <md-icon class="md-flex-align-icon"><i class="material-icons">add_circle</i></md-icon>
+                        New Institution
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button>
+                        <md-icon class="md-flex-align-icon"><i class="material-icons">settings</i></md-icon>
+                        Account Settings
+                    </md-button>
+                </md-menu-item>
+                <md-menu-divider></md-menu-divider>
+                <md-menu-item>
+                    <md-button>
+                        Logout
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
     </div>
 </md-toolbar>

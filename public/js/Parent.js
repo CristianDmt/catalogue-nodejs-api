@@ -19,7 +19,8 @@ app.controller('Parent', function($scope, $http, $mdDialog, $mdToast) {
                     .highlightAction(true)
             ).then(function(response) {
                 if(response == 'ok') {
-                    $mdDialog.show($mdDialog.alert()
+                    $mdDialog.show(
+                        $mdDialog.alert()
                         .parent(angular.element(document.body))
                         .title('Closed')
                         .textContent('You have closed the dialog.')

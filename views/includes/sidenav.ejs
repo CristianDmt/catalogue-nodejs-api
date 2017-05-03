@@ -1,12 +1,24 @@
 <md-sidenav md-component-id="sidenav" md-whiteframe="3" md-is-locked-open="$mdMedia('gt-sm')">
-	<md-toolbar class="md-primary" hide-gt-sm>
-		<md-toolbar-tools>
+	<md-toolbar class="md-primary">
+		<md-toolbar-tools layout="column">
 			<h5 class="md-toolbar-tools">Menu</h5>
 		</md-toolbar-tools>
 	</md-toolbar>
-	<md-content class="md-scrollbar">
-		<md-subheader class="md-no-sticky">General</md-subheader>
+	<md-input-container class="md-block" flex ng-controller="AccessController">
+		<md-select
+				ng-model="currentInstitution"
+				ng-change="showOption($event)"
+				ng-disabled="!isAuth"
+				placeholder="Access an Institution..."
+				aria-label="Institution Picker">
+			<md-optgroup label="Available Institutions">
+				<md-option ng-repeat="institution in accessInstitutions" ng-value="institution.name">{{ institution.name }}</md-option>
+			</md-optgroup>
+		</md-select>
+	</md-input-container>
+	<md-content class="md-scrollbar" ng-if="isAuth">
 		<md-list>
+			<md-subheader class="md-no-sticky">General</md-subheader>
 			<md-list-item ng-href="/">
 				<md-item-content>
 					<i class="material-icons md-flex-align-icon md-avatar-icon">home</i>
@@ -27,40 +39,52 @@
 				</md-item-content>
 			</md-list-item>
 			<md-subheader class="md-no-sticky">Principle</md-subheader>
-			<md-list-item ng-href="/parent/student/situation/ID">
+			<md-list-item ng-href="/institution/permissions">
 				<md-item-content>
-					<i class="material-icons md-flex-align-icon md-avatar-icon">assignment_ind</i>
-					Manage Permissions
+					<i class="material-icons md-flex-align-icon md-avatar-icon">security</i>
+					Permissions
 				</md-item-content>
 			</md-list-item>
-			<md-list-item ng-href="/parent/student/situation/ID">
+			<md-list-item ng-href="/institution/associations">
 				<md-item-content>
-					<i class="material-icons md-flex-align-icon md-avatar-icon">assignment_ind</i>
-					Manage Requests
+					<i class="material-icons md-flex-align-icon md-avatar-icon">group_work</i>
+					Associations
 				</md-item-content>
 			</md-list-item>
-			<md-list-item ng-href="/parent/student/situation/ID">
+			<md-list-item ng-href="/institution/requests">
 				<md-item-content>
-					<i class="material-icons md-flex-align-icon md-avatar-icon">assignment_ind</i>
-					Manage Institution
+					<i class="material-icons md-flex-align-icon md-avatar-icon">playlist_add_check</i>
+					Requests
+				</md-item-content>
+			</md-list-item>
+			<md-list-item ng-href="/institution/settings">
+				<md-item-content>
+					<i class="material-icons md-flex-align-icon md-avatar-icon">settings</i>
+					Settings
 				</md-item-content>
 			</md-list-item>
 			<md-subheader class="md-no-sticky">Class Master</md-subheader>
 			<md-list-item ng-href="/parent/student/situation/ID">
 				<md-item-content>
-					<i class="material-icons md-flex-align-icon md-avatar-icon">assignment_ind</i>
+					<i class="material-icons md-flex-align-icon md-avatar-icon">featured_play_list</i>
 					Manage Classes
 				</md-item-content>
 			</md-list-item>
 			<md-subheader class="md-no-sticky">Teacher</md-subheader>
 			<md-list-item ng-href="/parent/student/situation/ID">
 				<md-item-content>
-					<i class="material-icons md-flex-align-icon md-avatar-icon">assignment_ind</i>
-					Manage Catalogue
+					<i class="material-icons md-flex-align-icon md-avatar-icon">class</i>
+					Activity Catalogue
+				</md-item-content>
+			</md-list-item>
+			<md-list-item ng-href="/parent/student/situation/ID">
+				<md-item-content>
+					<i class="material-icons md-flex-align-icon md-avatar-icon">assessment</i>
+					Analytics Tool
 				</md-item-content>
 			</md-list-item>
 			<md-subheader class="md-no-sticky">Student</md-subheader>
-			<md-list-item ng-href="/parent/student/situation/ID">
+			<md-list-item ng-href="/student/situation">
 				<md-item-content>
 					<i class="material-icons md-flex-align-icon md-avatar-icon">assignment_ind</i>
 					Marks Situation
@@ -69,7 +93,7 @@
 			<md-subheader class="md-no-sticky">Parent</md-subheader>
 			<md-list-item ng-href="/parent/student/list">
 				<md-item-content>
-					<i class="material-icons md-flex-align-icon md-avatar-icon">list</i>
+					<i class="material-icons md-flex-align-icon md-avatar-icon">view_list</i>
 					Student List
 				</md-item-content>
 			</md-list-item>
@@ -77,6 +101,28 @@
 				<md-item-content>
 					<i class="material-icons md-flex-align-icon md-avatar-icon">assignment_ind</i>
 					Student Situation
+				</md-item-content>
+			</md-list-item>
+		</md-list>
+	</md-content>
+	<md-content class="md-scrollbar" ng-if="!isAuth">
+		<md-list>
+			<md-list-item ng-href="/login">
+				<md-item-content>
+					<i class="material-icons md-flex-align-icon md-avatar-icon">home</i>
+					Login
+				</md-item-content>
+			</md-list-item>
+			<md-list-item ng-href="/register">
+				<md-item-content>
+					<i class="material-icons md-flex-align-icon md-avatar-icon">lock</i>
+					Register
+				</md-item-content>
+			</md-list-item>
+			<md-list-item ng-href="/forgot">
+				<md-item-content>
+					<i class="material-icons md-flex-align-icon md-avatar-icon">home</i>
+					Forgotten Password
 				</md-item-content>
 			</md-list-item>
 		</md-list>
