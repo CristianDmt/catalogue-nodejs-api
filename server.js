@@ -18,6 +18,7 @@ var associateController = require('./controllers/Associate');
 var permissionController = require('./controllers/Permission');
 var searchController = require('./controllers/Search');
 
+var originMiddleware = require('./middleware/Origin');
 var permissionMiddleware = require('./middleware/Permission');
 
 /* Keep Enabled in Production */
@@ -62,6 +63,7 @@ app.get('/template/institution/classes', function(req, res) { res.render('princi
 console.log('Frontend components have been loaded...');
 
 // Mounting Middleware API
+app.use('/api/*', originMiddleware.enableREST); // /api/*?token=API_TOKEN
 app.use('/api/*', permissionMiddleware.retrieveGlobalPermission); // /api/*?token=API_TOKEN
 
 // Backend Auth API Routes
