@@ -1,4 +1,4 @@
-<md-toolbar class="md-medium-tall">
+<md-toolbar class="md-medium-tall" ng-init="listPermissions()">
     <md-toolbar-tools layout="row" layout-padding layout-align="left center">
         <h4 md-truncate>
             <i class="material-icons md-flex-align-icon md-avatar-icon">security</i>
@@ -9,42 +9,43 @@
 <md-content md-whiteframe="2">
     <md-list>
         <md-subheader class="md-no-sticky">Current Members</md-subheader>
-        <md-list-item ng-repeat="id in [1, 2, 3, 4, 5]">
-            <p>Cristian Dumitrov</p>
+        <md-list-item ng-repeat="auth in permissions">
+            <p>{{ auth.authName }}</p>
 
             <md-menu class="md-secondary">
+                {{ auth.access.toUpperCase() }}
                 <md-button class="md-icon-button">
                     <i class="material-icons md-flex-align-icon">more_vert</i>
                 </md-button>
                 <md-menu-content width="4" class="md-scrollbar">
                     <md-subheader class="md-no-sticky">Set Permissions</md-subheader>
-                    <md-menu-item>
+                    <md-menu-item ng-click="updatePermissions(auth, 'director')" ng-if="auth.access.toLowerCase() != 'director'">
                         <md-button>
-                            Principle
+                            Director
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item>
+                    <md-menu-item ng-click="updatePermissions(auth, 'master')" ng-if="auth.access.toLowerCase() != 'master'">
                         <md-button>
                             Master
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item>
+                    <md-menu-item ng-click="updatePermissions(auth, 'teacher')" ng-if="auth.access.toLowerCase() != 'teacher'">
                         <md-button>
                             Teacher
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item>
+                    <md-menu-item ng-click="updatePermissions(auth, 'student')" ng-if="auth.access.toLowerCase() != 'student'">
                         <md-button>
                             Student
                         </md-button>
                     </md-menu-item>
-                    <md-menu-item>
+                    <md-menu-item ng-click="updatePermissions(auth, 'parent')" ng-if="auth.access.toLowerCase() != 'parent'">
                         <md-button>
                             Parent
                         </md-button>
                     </md-menu-item>
                     <md-menu-divider></md-menu-divider>
-                    <md-menu-item>
+                    <md-menu-item ng-click="removePermissions(auth)">
                         <md-button>
                             Remove
                         </md-button>

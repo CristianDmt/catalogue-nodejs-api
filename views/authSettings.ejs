@@ -1,0 +1,21 @@
+<md-toolbar class="md-medium-tall">
+    <md-toolbar-tools layout="row" layout-padding layout-align="left center">
+        <h4 md-truncate>
+            <i class="material-icons md-flex-align-icon md-avatar-icon">settings</i>
+            <span>Account Settings</span>
+        </h4>
+    </md-toolbar-tools>
+</md-toolbar>
+<md-content md-whiteframe="2">
+    <form name="updateName" layout="column" layout-align="center center">
+        <md-input-container flex="50">
+            <label>Full Name</label>
+            <input required name="name" ng-model="auth.name" maxlength="150">
+            <div ng-messages="updateName.name.$error">
+                <div ng-message="required">A valid name is required.</div>
+                <div ng-message="maxlength">Name cannot exceed 150 characters.</div>
+            </div>
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-click="authUpdateName()">Update</md-button>
+    </form>
+</md-content>

@@ -8,11 +8,11 @@
 </md-toolbar>
 <md-content md-whiteframe="2">
     <md-content>
-        <form name="createInst" layout="column" layout-align="center center">
+        <form name="createInst" ng-submit="createInstitution()" layout="column" layout-align="center center">
             <md-input-container flex="50">
                 <label>Institution Name</label>
-                <input name="name" ng-model="inst.name" md-maxlength="100" minlength="3">
-                <div ng-messages="createInstitution.name.$error">
+                <input required name="name" ng-model="inst.name" md-maxlength="100" minlength="3">
+                <div ng-messages="createInst.name.$error">
                     <div ng-message="required">Institution name cannot be blank.</div>
                     <div ng-message="md-maxlength">Institution name cannot exceed 100 characters.</div>
                     <div ng-message="minlength">Institution name cannot be shorter than 3 characters.</div>

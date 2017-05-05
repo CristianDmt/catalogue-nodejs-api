@@ -14,6 +14,8 @@
 			<md-optgroup ng-if="accessInstitutions.local.length < 1" label="No Available Institutions"></md-optgroup>
 			<md-optgroup ng-if="accessInstitutions.local.length > 0" label="Available Institutions">
 				<md-option ng-repeat="institution in accessInstitutions.local" ng-value="institution">{{ institution.instName }} <i>({{ institution.access }})</i></md-option>
+				<md-divider></md-divider>
+				<md-option ng-click="clearInstitution()">No Institution</md-option>
 			</md-optgroup>
 		</md-select>
 	</md-input-container>
