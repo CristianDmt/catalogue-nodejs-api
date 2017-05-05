@@ -2,6 +2,7 @@
 
 var Database = require('../models/index');
 var Auth = require('../models/AuthModel');
+var AuthSettings = require('../models/AuthSettings');
 var AuthToken = require('../models/AuthTokenModel');
 var Permission = require('../models/Permission');
 
@@ -11,14 +12,18 @@ var Moment = require('moment');
 var Hash = require('js-sha512');
 var IP = require('ipware')().get_ip;
 
-exports.createAuth = function(authUsername, authPassword, authRequest, callback) {
+exports.createAuth = function(authUsername, authPassword, authName, authRequest, callback) {
     // Validate the Username and Password.
-    if(typeof(authUsername) == 'undefined' || authUsername.length < 6 || authUsername.length > 16) {
+    if(typeof(authUsername) == 'undefined' || authUsername.length < 6 || authUsername.length > 32) {
         return callback(null, 'auth_invalid_username');
     }
 
     if(typeof(authPassword) == 'undefined' || authPassword.length < 6) {
         return callback(null, 'auth_invalid_password');
+    }
+
+    if(typeof(authName) == 'undefined' || authName.length < 1 || authName.length > 150) {
+        return callback(null, 'auth_invalid_name');
     }
 
     // Check for Duplicates.
@@ -39,6 +44,13 @@ exports.createAuth = function(authUsername, authPassword, authRequest, callback)
             newAccount.save().then(function(newAccount) {
                 Permission.setPermission(newAccount._id, 'normal', function authSetPermissionCallback(error, permResponse) {
                     if(permResponse == 'global_access_set') {
+                        var authSettings = new AuthSettings({
+                            authId: newAccount._id,
+                            name: authName
+                        });
+
+                        authSettings.save();
+
                         return callback(null, 'auth_created');
                     }
                     else {

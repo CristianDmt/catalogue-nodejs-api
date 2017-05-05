@@ -1,14 +1,14 @@
 <md-toolbar class="md-medium-tall">
     <md-toolbar-tools layout="row" layout-padding layout-align="left center">
         <h4 md-truncate>
-            <i class="material-icons md-flex-align-icon md-avatar-icon">playlist_add_check</i>
-            <span>Institution Requests</span>
+            <i class="material-icons md-flex-align-icon md-avatar-icon">security</i>
+            <span>Permissions</span>
         </h4>
     </md-toolbar-tools>
 </md-toolbar>
 <md-content md-whiteframe="2">
     <md-list>
-        <md-subheader class="md-no-sticky">Requests By</md-subheader>
+        <md-subheader class="md-no-sticky">Current Members</md-subheader>
         <md-list-item ng-repeat="id in [1, 2, 3, 4, 5]">
             <p>Cristian Dumitrov</p>
 
@@ -16,21 +16,37 @@
                 <md-button class="md-icon-button">
                     <i class="material-icons md-flex-align-icon">more_vert</i>
                 </md-button>
-                <md-menu-content width="4">
+                <md-menu-content width="4" class="md-scrollbar">
+                    <md-subheader class="md-no-sticky">Set Permissions</md-subheader>
                     <md-menu-item>
-                        <md-button ng-click="requestAccept(demoId)">
-                            Accept Request
+                        <md-button>
+                            Principle
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
                         <md-button>
-                            Deny Request
+                            Master
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button>
+                            Teacher
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button>
+                            Student
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button>
+                            Parent
                         </md-button>
                     </md-menu-item>
                     <md-menu-divider></md-menu-divider>
                     <md-menu-item>
                         <md-button>
-                            Close Menu
+                            Remove
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>

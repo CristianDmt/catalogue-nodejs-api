@@ -21,7 +21,14 @@ app.controller('Principle', function($scope, $http, $mdDialog, $mdToast) {
                 );
             }
         });
+    }
 
-        console.log(reqId);
+    $scope.requestDeny = function(reqId) {
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent('You have denied Cristian Dumitrov\'s request.')
+                .hideDelay(1500)
+                .position('right bottom')
+        ).then(function(response) {});
     }
 });
