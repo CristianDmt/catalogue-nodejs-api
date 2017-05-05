@@ -4,6 +4,7 @@ var Database = require('../models/index');
 
 console.log("Compiling Institution Schema...");
 var instSchema = new Database.Schema({
+        _strId: { type: String, default: "" }, // self.String
         name: String,
         countryCode: { type: String, default: "" },
         city: { type: String, default: "" },

@@ -3,12 +3,13 @@
 var Database = require('../models/index');
 var Inst = require('../models/InstitutionModel');
 var InstitutionSettings = require('../models/InstitutionSettingsModel');
+var Permission = require('../models/PermissionInstitution');
 
 var Moment = require('moment');
 
-exports.createInstitution = function(instName, callback) {
+exports.createInstitution = function(instName, authId, callback) {
     if(typeof(instName) == 'undefined' || instName.length < 3 || instName.length > 100) {
-        callback(null, 'institution_invalid_name');
+        callback(null, 'institution_invalid_name', null);
     }
 
     var newInst = new Inst({
@@ -17,15 +18,24 @@ exports.createInstitution = function(instName, callback) {
     });
 
     newInst.save().then(function(jsonData) {
-        // Async based on the newly created institution id.
+        // Async set the institution self.id for $lookup.
+        newInst._strId = jsonData._id;
+        newInst.save();
+
+        // Async create the institution settings.
         var newInstitutionSettings = new InstitutionSettings({
             instId: jsonData._id
         });
 
-        return callback(null, 'institution_created');
+        newInstitutionSettings.save();
+
+        // Async give director rights to the creator.
+        Permission.setInstitutionPermission(authId, jsonData._id, 'director', function(error, response) {});
+
+        return callback(null, 'institution_created', jsonData._id);
     }).catch(function(error) {
         console.log(error);
-        return callback(null, 'unknown_error');
+        return callback(null, 'unknown_error', null);
     });
 }
 

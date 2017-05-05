@@ -2,30 +2,25 @@
 
 var instModel = require('../models/Institution');
 
+var Pager = require('../helpers/PageResponses');
+
 exports.createInstitution = function(req, res) {
-    if(!res.locals.isAuth || res.locals.globalPermissions != 'sysadmin') {
-        res.json({
-            status: 'error',
-            response: 'access_denied'
-        });
+    if(!res.locals.isAuth) {
+        return Pager.accessDenied(res);
     }
 
-    var instCallback = function(error, instCreationResponse) {
+    var instCallback = function(error, instCreationResponse, instId) {
         if(instCreationResponse == 'institution_created') {
-            res.json({
-                status: 'ok',
-                response: instCreationResponse
+            return Pager.jsonData(res, instCreationResponse, {
+               id: instId
             });
         }
         else {
-            res.json({
-                status: 'error',
-                response: instCreationResponse
-            });
+            return Pager.jsonError(res, instCreationResponse);
         }
     }
 
-    instModel.createInstitution(req.body.name, instCallback);
+    instModel.createInstitution(req.body.name, res.locals.authId, instCallback);
 }
 
 exports.listInstitution = function(req, res) {
