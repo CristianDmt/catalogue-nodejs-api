@@ -7,21 +7,34 @@
     </md-toolbar-tools>
 </md-toolbar>
 <md-content md-whiteframe="2">
-    <md-content layout="column" layout-align="center center">
-        <md-input-container flex="50">
-            <label>Username</label>
-            <input required name="username" ng-model="auth.username">
-            <div ng-messages="username.$error">
-                <div ng-message="required">A username is required to authenticate.</div>
-            </div>
-        </md-input-container>
-        <md-input-container flex="50">
-            <label>Password</label>
-            <input required type="password" name="password" ng-model="auth.password">
-            <div ng-messages="password.$error">
-                <div ng-message="required">A password is required to authenticate.</div>
-            </div>
-        </md-input-container>
-        <md-button class="md-raised md-primary" ng-click="authRegister()">Register</md-button>
+    <md-content>
+        <form ng-submit="authRegister()" name="registerAuth" layout="column" layout-align="center center">
+            <md-input-container flex="50">
+                <label>Full Name</label>
+                <input required name="name" ng-model="auth.name" maxlength="150">
+                <div ng-messages="name.$error">
+                    <div ng-message="required">A full name is required to register.</div>
+                    <div ng-message="maxlength">Name cannot exceed 150 characters.</div>
+                </div>
+            </md-input-container>
+            <md-input-container flex="50">
+                <label>Username</label>
+                <input required name="username" ng-model="auth.username" maxlength="32" minlength="6">
+                <div ng-messages="username.$error">
+                    <div ng-message="required">A username is required to register.</div>
+                    <div ng-message="maxlength">Username cannot exceed 32 characters.</div>
+                    <div ng-message="minlength">Username cannot be shorter than 6 characters.</div>
+                </div>
+            </md-input-container>
+            <md-input-container flex="50">
+                <label>Password</label>
+                <input required type="password" name="password" ng-model="auth.password" minlength="6">
+                <div ng-messages="password.$error">
+                    <div ng-message="required">A password is required to register.</div>
+                    <div ng-message="minlength">Password cannot be shorter than 6 characters.</div>
+                </div>
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="authRegister()">Register</md-button>
+        </form>
     </md-content>
 </md-content>

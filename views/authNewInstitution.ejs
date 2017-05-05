@@ -1,0 +1,24 @@
+<md-toolbar class="md-medium-tall">
+    <md-toolbar-tools layout="row" layout-padding layout-align="left center">
+        <h4 md-truncate>
+            <i class="material-icons md-flex-align-icon md-avatar-icon">add_circle</i>
+            <span>New Institution</span>
+        </h4>
+    </md-toolbar-tools>
+</md-toolbar>
+<md-content md-whiteframe="2">
+    <md-content>
+        <form name="createInst" layout="column" layout-align="center center">
+            <md-input-container flex="50">
+                <label>Institution Name</label>
+                <input name="name" ng-model="inst.name" md-maxlength="100" minlength="3">
+                <div ng-messages="createInstitution.name.$error">
+                    <div ng-message="required">Institution name cannot be blank.</div>
+                    <div ng-message="md-maxlength">Institution name cannot exceed 100 characters.</div>
+                    <div ng-message="minlength">Institution name cannot be shorter than 3 characters.</div>
+                </div>
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="createInstitution()">Create Institution</md-button>
+        </form>
+    </md-content>
+</md-content>

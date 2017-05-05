@@ -64,7 +64,7 @@
             <md-menu-content width="2">
                 <md-subheader class="md-no-sticky">Quick Access</md-subheader>
                 <md-menu-item>
-                    <md-button>
+                    <md-button ng-href="/institution/create">
                         <md-icon class="md-flex-align-icon"><i class="material-icons">add_circle</i></md-icon>
                         New Institution
                     </md-button>
@@ -77,7 +77,7 @@
                 </md-menu-item>
                 <md-menu-divider></md-menu-divider>
                 <md-menu-item>
-                    <md-button>
+                    <md-button ng-click="authLogout()">
                         Logout
                     </md-button>
                 </md-menu-item>
