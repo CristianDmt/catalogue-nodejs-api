@@ -7,31 +7,19 @@ var Pager = require('../helpers/PageResponses');
 
 exports.makeRequest = function(req, res) {
     if(!res.locals.isAuth) {
-        res.json({
-            status: 'error',
-            response: 'auth_required'
-        });
+        return Pager.jsonError(res, 'auth_required');
     }
 
     if(!req.params.inst) {
-        res.json({
-            status: 'error',
-            response: 'institution_not_set'
-        });
+        return Pager.jsonError(res, 'institution_not_set');
     }
 
     var requestCallback = function(error, requestCreationResponse) {
         if(requestCreationResponse == 'request_sent') {
-            res.json({
-                status: 'ok',
-                response: requestCreationResponse
-            });
+            return Pager.jsonOk(res, requestCreationResponse);
         }
         else {
-            res.json({
-                status: 'error',
-                response: requestCreationResponse
-            });
+            return Pager.jsonError(res, requestCreationResponse);
         }
     }
 

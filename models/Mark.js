@@ -85,3 +85,15 @@ exports.deleteMark = function(markId, callback) {
 
     this.getMark(markId, markExistsCallback);
 }
+
+exports.listMarksByStudent = function(studentId, callback) {
+
+}
+
+exports.listSkipsByStudent = function(studentId, callback) {
+
+}
+
+exports.listSituationByStudent = function(studentId, callback) {
+
+}

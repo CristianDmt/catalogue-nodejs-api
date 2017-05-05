@@ -231,7 +231,7 @@ exports.removeAssocMasterToClass = function(authId, classId, callback) {
     this.getAssocMasterToClass(authId, classId, associationExistsCallback);
 }
 
-exports.setAssocParentToStudent = function(authId, studentId, callback) {
+exports.setAssocParentToStudent = function(originId, authId, studentId, callback) {
     var duplicateCheckCallback = function(error, jsonData) {
         if(jsonData) {
             return callback(null, 'association_already_existent');
@@ -302,4 +302,24 @@ exports.removeAssocParentToStudent = function(authId, studentId, callback) {
     }
 
     this.getAssocParentToStudent(authId, studentId, associationExistsCallback);
+}
+
+exports.listStudentsByParent = function(req, res) {
+
+}
+
+exports.listStudentsByClass = function(req, res) {
+
+}
+
+exports.listClassesByMaster = function(req, res) {
+
+}
+
+exports.listCoursesByClass = function(req, res) {
+
+}
+
+exports.listCoursesByTeacher = function(req, res) {
+
 }

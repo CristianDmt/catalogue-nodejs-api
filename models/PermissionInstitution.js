@@ -4,10 +4,9 @@ var Auth = require('../models/Auth');
 var Institution = require('../models/Institution');
 var InstitutionPermission = require('../models/PermissionInstitutionModel');
 
-exports.setInstitutionPermission = function(authId, instId, access, callback){
+exports.setInstitutionPermission = function(authId, instId, access, callback) {
     if(
-        access.toLowerCase() != 'new'
-        && access.toLowerCase() != 'parent'
+        access.toLowerCase() != 'parent'
         && access.toLowerCase() != 'student'
         && access.toLowerCase() != 'teacher'
         && access.toLowerCase() != 'master'
@@ -72,6 +71,30 @@ exports.getInstitutionPermission = function(authId, instId, callback) {
             InstitutionPermission.findOne({ authId: jsonData._id, instId: instId }).then(function(jsonData) {
                 if(jsonData) {
                     return callback(null, jsonData.access.toLowerCase());
+                }
+                else {
+                    return callback(true, 'auth_access_not_set');
+                }
+            }).catch(function(error) {
+                console.log(error);
+
+                return callback(true, 'unknown_error');
+            });
+        }
+        else {
+            return callback(true, 'auth_not_existent');
+        }
+    }
+
+    Auth.getAuth(authId, getPermissionCallback);
+}
+
+exports.removeInstitutionPermission = function(authId, instId, callback) {
+    var getPermissionCallback = function(error, jsonData) {
+        if(jsonData) {
+            InstitutionPermission.remove({ authId: jsonData._id, instId: instId }).then(function(jsonData) {
+                if(jsonData) {
+                    return callback(null, 'auth_access_revoked');
                 }
                 else {
                     return callback(true, 'auth_access_not_set');

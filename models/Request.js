@@ -85,7 +85,7 @@ exports.deleteRequest = function(instId, authId, callback) {
     this.getRequest(instId, authId, cancelRequestCallback);
 }
 
-exports.listRequests = function(instId, callback) {
+exports.listRequests = function(callback) {
     Request.find({}).then(function(jsonData) {
         return callback(null, 'requests_list_retrieved', jsonData);
     }).catch(function(error) {

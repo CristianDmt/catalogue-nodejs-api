@@ -2,23 +2,19 @@
 
 var authModel = require('../models/Auth');
 
+var Pager = require('../helpers/PageResponses');
+
 exports.createAuth = function(req, res) {
     var authCallback = function(error, authCreationResponse) {
-        if (authCreationResponse == 'account_created') {
-            res.json({
-                status: 'ok',
-                response: authCreationResponse
-            });
+        if (authCreationResponse == 'auth_created') {
+            return Pager.jsonOk(res, authCreationResponse);
         }
         else {
-            res.json({
-                status: 'error',
-                error: authCreationResponse
-            });
+            return Pager.jsonError(res, authCreationResponse);
         }
     }
 
-    authModel.createAuth(req.body.username, req.body.password, req, authCallback);
+    authModel.createAuth(req.body.username, req.body.password, req.body.name, req, authCallback);
 }
 
 exports.requestToken = function(req, res) {
@@ -31,10 +27,7 @@ exports.requestToken = function(req, res) {
             });
         }
         else {
-            res.json({
-                status: 'error',
-                error: authRequestResponse
-            });
+            return Pager.jsonError(res, authRequestResponse);
         }
     }
 
@@ -43,24 +36,15 @@ exports.requestToken = function(req, res) {
 
 exports.validateToken = function(req, res) {
     if(!req.params.token) {
-        res.json({
-            status: 'error',
-            response: 'token_not_set'
-        });
+        return Pager.jsonError(res, 'token_not_set');
     }
 
     var authCallback = function(error, tokenState) {
         if(tokenState == 'token_valid') {
-            res.json({
-                status: 'ok',
-                response: tokenState
-            });
+            return Pager.jsonOk(res, tokenState);
         }
         else {
-            res.json({
-                status: 'error',
-                response: tokenState
-            });
+            return Pager.jsonError(res, tokenState);
         }
     }
 

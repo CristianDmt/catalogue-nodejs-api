@@ -49,17 +49,22 @@ if ('development' == app.get('env')) {
 app.get('/template/demo/1', function(req, res) { res.render('demo1') });
 app.get('/template/demo/2', function(req, res) { res.render('demo2') });
 app.get('/template/demo/3', function(req, res) { res.render('demo3') });
+app.get('/template/home', function(req, res) { res.render('authHome') });
 app.get('/template/login', function(req, res) { res.render('authLogin') });
 app.get('/template/register', function(req, res) { res.render('authRegister') });
+app.get('/template/auth/settings', function(req, res) { res.render('authSettings') });
 app.get('/template/student/situation', function(req, res) { res.render('studentSituation') });
 app.get('/template/parent/student/list', function(req, res) { res.render('parentStudentList') });
 app.get('/template/parent/student/situation', function(req, res) { res.render('parentStudentSituation') });
-app.get('/template/institution/permissions', function(req, res) { res.render('principlePermissions') });
-app.get('/template/institution/associations', function(req, res) { res.render('principleAssociations') });
-app.get('/template/institution/requests', function(req, res) { res.render('principleRequests') });
-app.get('/template/institution/settings', function(req, res) { res.render('principleSettings') });
-app.get('/template/institution/courses', function(req, res) { res.render('principleCourses') });
-app.get('/template/institution/classes', function(req, res) { res.render('principleClasses') });
+app.get('/template/institution/create', function(req, res) { res.render('authNewInstitution') });
+app.get('/template/institution/classes', function(req, res) { res.render('directorClasses') });
+app.get('/template/institution/courses', function(req, res) { res.render('directorCourses') });
+app.get('/template/institution/permissions', function(req, res) { res.render('directorPermissions') });
+app.get('/template/institution/associations', function(req, res) { res.render('directorAssociations') });
+app.get('/template/institution/requests', function(req, res) { res.render('directorRequests') });
+app.get('/template/institution/settings', function(req, res) { res.render('directorSettings') });
+app.get('/template/institution/courses', function(req, res) { res.render('directorCourses') });
+app.get('/template/institution/classes', function(req, res) { res.render('directorClasses') });
 console.log('Frontend components have been loaded...');
 
 // Mounting Middleware API
@@ -106,7 +111,12 @@ app.get('/api/course/delete', courseController.deleteCourse);
 
 // Search API Routes
 app.get('/api/search', searchController.querySearch);
-app.post('/api/search', searchController.querySearch);
+
+// Permissions API Routes
+app.post('/api/permission/update/:inst', permissionController.setInstitutionPermissions);
+app.post('/api/permission/remove/:inst', permissionController.removeInstitutionPermissions);
+app.get('/api/permission/available', permissionController.listAvailableAuthPermissions);
+app.get('/api/permission/institution/:inst', permissionController.listInstitutionPermissions);
 
 // Demo API Routes
 app.get('/api/demo', associateController.demoAssoc);
