@@ -86,8 +86,37 @@ exports.deleteMark = function(markId, callback) {
     this.getMark(markId, markExistsCallback);
 }
 
-exports.listMarksByStudent = function(studentId, callback) {
-
+exports.listMarksByStudent = function(instId, studentId, callback) {
+    Mark.aggregate([
+        { $match: { "instId": instId, "studentId": studentId } },
+        {
+            $lookup: {
+                'from': 'AuthSettings',
+                'localField': 'teacherId',
+                'foreignField': 'authId',
+                'as': 'teacher'
+            }
+        },
+        { $unwind: "$teacher" },
+        {
+            $project: {
+                teacherId: "$teacher.authId", teacherName: "$teacher.name",
+                courseId: "$courseId", courseName: "$courseId",
+                mark: '$mark', period: '$period', date: '$createdDate',
+            }
+        },
+        { $sort: { period: 1, date: 1 } }
+    ]).then(function(jsonData) {
+        if(jsonData) {
+            return callback(null, 'marks_retrieved', jsonData);
+        }
+        else {
+            return callback(null, 'marks_failed', null);
+        }
+    }).catch(function(error) {
+        console.log(error);
+        return callback(null, 'unknown_error', null);
+    });
 }
 
 exports.listSkipsByStudent = function(studentId, callback) {

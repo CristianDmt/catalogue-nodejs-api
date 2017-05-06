@@ -1,40 +1,35 @@
 app.controller('Director', function($scope, $rootScope, $routeParams, $http, $api, $cookies, $mdDialog, $mdToast) {
-    $scope.requestAccept = function(req) {
-        $http.get(
-            $api.protocol + '://' + $api.endpoint + '/request/accept/' + req._id + '?token=' + $cookies.get('token')
-        ).then(function(res) {
-            $mdToast.show(
-                $mdToast.simple()
-                    .textContent('You have accepted user\'s request.')
-                    .hideDelay(1500)
-                    .position('right bottom')
-                    .action('Undo')
-                    .highlightAction(true)
-            );
+    $scope.demoId = 69;
 
-            $scope.requests.splice(req, 1);
-        }, function(res) {
-            $location.url('/error');
+    $scope.requestAccept = function(reqId) {
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent('You have accepted Cristian Dumitrov\'s request.')
+                .hideDelay(1500)
+                .position('right bottom')
+                .action('Undo')
+                .highlightAction(true)
+        ).then(function(response) {
+            if(response == 'ok') {
+                $mdDialog.show(
+                    $mdDialog.alert()
+                        .parent(angular.element(document.body))
+                        .title('Undo Request')
+                        .textContent('Are you sure you want to remove Cristian Dumitrov from your institution?')
+                        .ariaLabel('Remove from Institution')
+                        .ok('Close')
+                );
+            }
         });
     }
 
-    $scope.requestDeny = function(req) {
-        $http.get(
-            $api.protocol + '://' + $api.endpoint + '/request/deny/' + req._id + '?token=' + $cookies.get('token')
-        ).then(function(res) {
-            $mdToast.show(
-                $mdToast.simple()
-                    .textContent('You have denied user\'s request.')
-                    .hideDelay(1500)
-                    .position('right bottom')
-                    .action('Undo')
-                    .highlightAction(true)
-            );
-
-            $scope.requests.splice(req, 1);
-        }, function(res) {
-            $location.url('/error');
-        });
+    $scope.requestDeny = function(reqId) {
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent('You have denied Cristian Dumitrov\'s request.')
+                .hideDelay(1500)
+                .position('right bottom')
+        ).then(function(response) {});
     }
 
     $scope.listPermissions = function() {
@@ -301,15 +296,5 @@ app.controller('Director', function($scope, $rootScope, $routeParams, $http, $ap
                 $location.url('/error');
             });
         }, function() {});
-    }
-
-    $scope.loadRequests = function() {
-        $http.get(
-            $api.protocol + '://' + $api.endpoint + '/request/list/' + $rootScope.selectedInstitution + '?token=' + $cookies.get('token')
-        ).then(function(res) {
-            $scope.requests = res.data.data;
-        }, function(res) {
-            $location.url('/error');
-        });
     }
 });

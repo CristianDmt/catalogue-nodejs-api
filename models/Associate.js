@@ -320,6 +320,81 @@ exports.listCoursesByClass = function(req, res) {
 
 }
 
-exports.listCoursesByTeacher = function(req, res) {
+exports.listCoursesByTeacher = function(teacherId, callback) {
+    var teacherExistsCallback = function(error, jsonData) {
+        if(jsonData) {
+            AssocTeacherToCourse.aggregate([
+                { $match: { "teacherId": teacherId } },
+                {
+                    $lookup: {
+                        'from': 'Courses',
+                        'localField': 'courseId',
+                        'foreignField': 'authId',
+                        'as': 'course'
+                    }
+                },
+                { $unwind: "$course" },
+                { $project: { teacherId: "$teacher.authId", teacherName: "$teacher.name" } }
+            ]).then(function(jsonData) {
+                if(jsonData) {
+                    return callback(null, 'association_courses_to_teacher_retrieved', jsonData);
+                }
+                else {
+                    return callback(null, 'association_courses_to_teacher_failed', null);
+                }
+            }).catch(function(error) {
+                console.log(error);
+                return callback(null, 'unknown_error', null);
+            });
+        }
+        else {
+            return callback(null, 'auth_not_existent', null);
+        }
+    }
 
+    Auth.getAuth(teacherId, teacherExistsCallback);
+}
+
+exports.listTeachersByCourse = function(instId, courseId, callback) {
+    var institutionExistsCallback = function(error, jsonData) {
+        if(jsonData) {
+            var courseExistsCallback = function(error, jsonData) {
+                if(jsonData) {
+                    AssocTeacherToCourse.aggregate([
+                        { $match: { "instId": instId, "courseId": courseId } },
+                        {
+                            $lookup: {
+                                'from': 'AuthSettings',
+                                'localField': 'teacherId',
+                                'foreignField': 'authId',
+                                'as': 'teacher'
+                            }
+                        },
+                        { $unwind: "$teacher" },
+                        { $project: { teacherId: "$teacher.authId", teacherName: "$teacher.name" } }
+                    ]).then(function(jsonData) {
+                        if(jsonData) {
+                            return callback(null, 'association_teacher_to_course_retrieved', jsonData);
+                        }
+                        else {
+                            return callback(null, 'association_teacher_to_course_failed', null);
+                        }
+                    }).catch(function(error) {
+                        console.log(error);
+                        return callback(null, 'unknown_error', null);
+                    });
+                }
+                else {
+                    return callback(null, 'course_not_existent', null);
+                }
+            }
+
+            Course.getCourse(courseId, courseExistsCallback);
+        }
+        else {
+            return callback(null, 'institution_not_existent');
+        }
+    }
+
+    Inst.getInstitution(instId, institutionExistsCallback);
 }

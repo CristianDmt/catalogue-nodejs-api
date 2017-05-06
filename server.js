@@ -56,15 +56,18 @@ app.get('/template/auth/settings', function(req, res) { res.render('authSettings
 app.get('/template/student/situation', function(req, res) { res.render('studentSituation') });
 app.get('/template/parent/student/list', function(req, res) { res.render('parentStudentList') });
 app.get('/template/parent/student/situation', function(req, res) { res.render('parentStudentSituation') });
+app.get('/template/institutions/all', function(req, res) { res.render('authAllInstitutions') });
 app.get('/template/institution/create', function(req, res) { res.render('authNewInstitution') });
-app.get('/template/institution/classes', function(req, res) { res.render('directorClasses') });
-app.get('/template/institution/courses', function(req, res) { res.render('directorCourses') });
 app.get('/template/institution/permissions', function(req, res) { res.render('directorPermissions') });
 app.get('/template/institution/associations', function(req, res) { res.render('directorAssociations') });
 app.get('/template/institution/requests', function(req, res) { res.render('directorRequests') });
 app.get('/template/institution/settings', function(req, res) { res.render('directorSettings') });
+app.get('/template/institution/course', function(req, res) { res.render('directorCourse') });
 app.get('/template/institution/courses', function(req, res) { res.render('directorCourses') });
+app.get('/template/institution/courses/create', function(req, res) { res.render('directorCoursesCreate') });
+app.get('/template/institution/class', function(req, res) { res.render('directorClass') });
 app.get('/template/institution/classes', function(req, res) { res.render('directorClasses') });
+app.get('/template/institution/classes/create', function(req, res) { res.render('directorClassesCreate') });
 console.log('Frontend components have been loaded...');
 
 // Mounting Middleware API
@@ -79,13 +82,14 @@ app.get('/api/auth/validate', authController.validateToken);
 
 // Request API Routes
 app.get('/api/request/make/:inst', requestController.makeRequest);
-app.get('/api//request/make', requestController.makeRequest);
+app.get('/api/request/make', requestController.makeRequest);
 app.get('/api/request/cancel/:inst', requestController.cancelRequest);
 app.get('/api/request/cancel', requestController.cancelRequest);
 app.get('/api/request/accept/:req', requestController.acceptRequest);
 app.get('/api/request/accept', requestController.acceptRequest);
 app.get('/api/request/deny/:req', requestController.denyRequest);
 app.get('/api/request/deny', requestController.denyRequest);
+app.get('/api/request/list/:inst', requestController.listRequestsByInstitution);
 
 // Institution API Routes
 app.post('/api/institution/create', instController.createInstitution);
@@ -112,14 +116,20 @@ app.get('/api/course/delete', courseController.deleteCourse);
 // Search API Routes
 app.get('/api/search', searchController.querySearch);
 
+// Associate API Routes
+app.post('/api/assoc/list/teacher/by/course/:inst', associateController.listTeachersByCourse);
+app.post('/api/assoc/make/teacher/by/course/:inst', associateController.addTeacherToCourse);
+app.post('/api/assoc/remove/teacher/from/course/:inst', associateController.removeTeacherFromCourse);
+
 // Permissions API Routes
 app.post('/api/permission/update/:inst', permissionController.setInstitutionPermissions);
 app.post('/api/permission/remove/:inst', permissionController.removeInstitutionPermissions);
 app.get('/api/permission/available', permissionController.listAvailableAuthPermissions);
 app.get('/api/permission/institution/:inst', permissionController.listInstitutionPermissions);
+app.post('/api/permission/institution/personal/:inst', permissionController.getInstitutionAllTeacherPermissions);
 
 // Demo API Routes
-app.get('/api/demo', associateController.demoAssoc);
+// app.get('/api/demo', associateController.demoAssoc);
 
 console.log('Backend API has been loaded...');
 

@@ -28,10 +28,10 @@
 					Home
 				</md-item-content>
 			</md-list-item>
-			<md-list-item ng-href="/demo/1">
+			<md-list-item ng-href="/institutions/all">
 				<md-item-content>
 					<i class="material-icons md-flex-align-icon md-avatar-icon">rss_feed</i>
-					Feed
+					Institutions
 				</md-item-content>
 			</md-list-item>
 			<div ng-if="selectedInstitutionAccess == 'director'">
@@ -52,12 +52,6 @@
 					<md-item-content>
 						<i class="material-icons md-flex-align-icon md-avatar-icon">security</i>
 						Permissions
-					</md-item-content>
-				</md-list-item>
-				<md-list-item ng-href="/institution/associations">
-					<md-item-content>
-						<i class="material-icons md-flex-align-icon md-avatar-icon">group_work</i>
-						Associations
 					</md-item-content>
 				</md-list-item>
 				<md-list-item ng-href="/institution/requests">
@@ -82,18 +76,12 @@
 					</md-item-content>
 				</md-list-item>
 			</div>
-			<div ng-if="selectedInstitutionAccess == 'teacher'">
+			<div ng-if="selectedInstitutionAccess == 'teacher' || selectedInstitutionAccess == 'master' || selectedInstitutionAccess == 'director'">
 			<md-subheader class="md-no-sticky">Teacher</md-subheader>
 				<md-list-item ng-href="/marks/situation">
 					<md-item-content>
 						<i class="material-icons md-flex-align-icon md-avatar-icon">class</i>
 						Activity Catalogue
-					</md-item-content>
-				</md-list-item>
-				<md-list-item ng-href="/marks/analytics">
-					<md-item-content>
-						<i class="material-icons md-flex-align-icon md-avatar-icon">assessment</i>
-						Analytics Tool
 					</md-item-content>
 				</md-list-item>
 			</div>

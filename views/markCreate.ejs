@@ -1,0 +1,28 @@
+<md-toolbar class="md-medium-tall">
+    <md-toolbar-tools layout="row" layout-padding layout-align="left center">
+        <h4 md-truncate>
+            <i class="material-icons md-flex-align-icon md-avatar-icon">settings</i>
+            <span>Student Mark</span>
+        </h4>
+    </md-toolbar-tools>
+</md-toolbar>
+<md-content md-whiteframe="2">
+    <md-list>
+        <md-list-item>
+            <p>Course</p>
+
+            <md-select ng-model="course" placeholder="Course" class="md-no-underline md-secondary">
+                <md-option value="as1" selected>Mathematics</md-option>
+                <md-option value="as2">Physics</md-option>
+            </md-select>
+        </md-list-item>
+        <md-list-item>
+            <p>Mark</p>
+
+            <md-select ng-model="mark" placeholder="Course" class="md-no-underline md-secondary">
+                <md-option ng-repeat="mark in [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]" value="mark" selected>{{ mark }}</md-option>
+            </md-select>
+        </md-list-item>
+
+    </md-list>
+</md-content>

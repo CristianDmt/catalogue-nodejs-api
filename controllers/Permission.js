@@ -102,3 +102,47 @@ exports.listInstitutionPermissions = function(req, res) {
 
     institutionPermissionModel.getInstitutionPermission(res.locals.authId, req.params.inst, hasAccessCallback);
 }
+
+exports.getInstitutionAllTeacherPermissions = function(req, res) {
+    var hasAccessCallback = function(error, permission) {
+        if(!error && permission == 'director') {
+            var forwardPermissionsCallback = function (error, jsonData) {
+                if (error) {
+                    return Pager.jsonError(res, jsonData);
+                }
+                else {
+                    return Pager.jsonData(res, 'permissions_retrieved', jsonData);
+                }
+            }
+
+            institutionPermissionModel.getInstitutionAllTeacherPermissions(req.params.inst, forwardPermissionsCallback);
+        }
+        else {
+            Pager.accessDenied(res);
+        }
+    }
+
+    institutionPermissionModel.getInstitutionPermission(res.locals.authId, req.params.inst, hasAccessCallback);
+}
+
+exports.getInstitutionAllStudentPermissions = function(req, res) {
+    var hasAccessCallback = function(error, permission) {
+        if(!error && permission == 'director') {
+            var forwardPermissionsCallback = function (error, jsonData) {
+                if (error) {
+                    return Pager.jsonError(res, jsonData);
+                }
+                else {
+                    return Pager.jsonData(res, 'permissions_retrieved', jsonData);
+                }
+            }
+
+            institutionPermissionModel.getInstitutionAllStudentPermissions(req.params.inst, forwardPermissionsCallback);
+        }
+        else {
+            Pager.accessDenied(res);
+        }
+    }
+
+    institutionPermissionModel.getInstitutionPermission(res.locals.authId, req.params.inst, hasAccessCallback);
+}

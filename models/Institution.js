@@ -40,7 +40,7 @@ exports.createInstitution = function(instName, authId, callback) {
 }
 
 exports.listInstitution = function(callback) {
-    Inst.find({}, 'name').then(function(jsonData) {
+    Inst.find({}).then(function(jsonData) {
         return callback(null, 'institution_list_retrieved', jsonData);
     }).catch(function(error) {
         console.log(error);

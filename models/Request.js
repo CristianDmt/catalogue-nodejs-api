@@ -95,7 +95,18 @@ exports.listRequests = function(callback) {
 }
 
 exports.listRequestsByInstitution = function(instId, callback) {
-    Request.find({ instId: instId }).then(function(jsonData) {
+    Request.aggregate([
+        { $match: { "instId": instId } },
+        {
+            $lookup: {
+                'from': 'AuthSettings',
+                'localField': 'authId',
+                'foreignField': 'authId',
+                'as': 'auth'
+            }
+        },
+        { $unwind: "$auth" },
+        { $project: { authId: "$authId", authName: "$auth.name" } }]).then(function(jsonData) {
         return callback(null, 'requests_list_retrieved', jsonData);
     }).catch(function(error) {
         console.log(error);
@@ -112,6 +123,9 @@ exports.acceptRequest = function(requestId, callback) {
             var markProcessedCallback = function(error, jsonResponse) {
                 if(jsonResponse == 'institution_access_set' || jsonResponse == 'institution_access_updated') {
                     Request.update({ _id: requestId }, { $set: { processed: true }}).then(function () {
+                        Request.remove({ _id: requestId }).then(function() {
+
+                        });
                         return callback(null, 'request_accepted');
                     }).catch(function (error) {
                         console.log(error);
@@ -140,6 +154,9 @@ exports.denyRequest = function(requestId, callback) {
         }
         else if(jsonData) {
             Request.update({ _id: requestId }, { $set: { processed: true } }).then(function () {
+                Request.remove({ _id: requestId }).then(function() {
+
+                });
                 return callback(null, 'request_denied');
             }).catch(function (error) {
                 console.log(error);

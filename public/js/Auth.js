@@ -95,4 +95,33 @@ app.controller('Auth', function($scope, $rootScope, $http, $route, $location, $c
             });
         }
     }
+
+    $scope.listInstitutions = function() {
+        $http.get(
+            $api.protocol + '://' + $api.endpoint + '/institution/list?token=' + $cookies.get('token')
+        ).then(function(res) {
+            var middleArray = res.data.data.length%2 == 0 ? res.data.data.length/2 : res.data.data.length/2 + 1;
+            $scope.instLeft = res.data.data.slice(0, middleArray);
+            $scope.instRight = res.data.data.slice(middleArray, res.data.data.length);
+        }, function(res) {
+            $location.url('/error');
+        });
+    }
+
+    $scope.makeRequest = function(inst) {
+        $http.get(
+            $api.protocol + '://' + $api.endpoint + '/request/make/' + inst._id + '?token=' + $cookies.get('token')
+        ).then(function(res) {
+            if(res.data.status == 'ok') {
+                $mdToast.show(
+                    $mdToast.simple()
+                        .textContent('Your request has been successfully sent.')
+                        .hideDelay(3000)
+                        .position('right bottom')
+                );
+            }
+        }, function(res) {
+            $location.url('/error');
+        });
+    }
 });

@@ -6,7 +6,8 @@ var InstitutionPermission = require('../models/PermissionInstitutionModel');
 
 exports.setInstitutionPermission = function(authId, instId, access, callback) {
     if(
-        access.toLowerCase() != 'parent'
+        access.toLowerCase() != 'new'
+        && access.toLowerCase() != 'parent'
         && access.toLowerCase() != 'student'
         && access.toLowerCase() != 'teacher'
         && access.toLowerCase() != 'master'
@@ -177,6 +178,78 @@ exports.getInstitutionPermissions = function(instId, callback) {
                 },
                 { $unwind: "$auth" },
                 { $project: { authId: "$authId", authName: "$auth.name", access: "$access" } }
+            ]).then(function(jsonData) {
+                if(jsonData) {
+                    return callback(null, jsonData);
+                }
+                else {
+                    return callback(true, 'institution_access_not_set');
+                }
+            }).catch(function(error) {
+                console.log(error);
+
+                return callback(true, 'unknown_error');
+            });
+        }
+        else {
+            return callback(true, 'institution_not_existent');
+        }
+    }
+
+    Institution.getInstitution(instId, getInstitutionCallback);
+}
+
+exports.getInstitutionAllTeacherPermissions = function(instId, callback) {
+    var getInstitutionCallback = function(error, jsonData) {
+        if(jsonData) {
+            InstitutionPermission.aggregate([
+                { $match: { "instId": instId, access: { $in: [ 'TEACHER', 'MASTER', 'DIRECTOR' ]} } },
+                {
+                    $lookup: {
+                        'from': 'AuthSettings',
+                        'localField': 'authId',
+                        'foreignField': 'authId',
+                        'as': 'auth'
+                    }
+                },
+                { $unwind: "$auth" },
+                { $project: { authId: "$authId", authName: "$auth.name" } }
+            ]).then(function(jsonData) {
+                if(jsonData) {
+                    return callback(null, jsonData);
+                }
+                else {
+                    return callback(true, 'institution_access_not_set');
+                }
+            }).catch(function(error) {
+                console.log(error);
+
+                return callback(true, 'unknown_error');
+            });
+        }
+        else {
+            return callback(true, 'institution_not_existent');
+        }
+    }
+
+    Institution.getInstitution(instId, getInstitutionCallback);
+}
+
+exports.getInstitutionAllStudentPermissions = function(instId, callback) {
+    var getInstitutionCallback = function(error, jsonData) {
+        if(jsonData) {
+            InstitutionPermission.aggregate([
+                { $match: { "instId": instId, access: 'STUDENT' } },
+                {
+                    $lookup: {
+                        'from': 'AuthSettings',
+                        'localField': 'authId',
+                        'foreignField': 'authId',
+                        'as': 'auth'
+                    }
+                },
+                { $unwind: "$auth" },
+                { $project: { authId: "$authId", authName: "$auth.name" } }
             ]).then(function(jsonData) {
                 if(jsonData) {
                     return callback(null, jsonData);

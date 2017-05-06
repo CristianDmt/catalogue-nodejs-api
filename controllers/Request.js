@@ -68,7 +68,7 @@ exports.acceptRequest = function(req, res) {
         var requestAccessCallback = function(error, jsonData) {
             if(jsonData) {
                 var accessCallback = function(error, permission) {
-                    if(res.locals.globalPermissions == 'sysadmin' || permission == 'director') {
+                    if(permission == 'director') {
                         var requestCallback = function(error, requestResponse) {
                             if(requestResponse == 'request_accepted') {
                                 return Pager.jsonOk(res, requestResponse);
@@ -85,7 +85,7 @@ exports.acceptRequest = function(req, res) {
                     }
                 }
 
-                Permission.getInstitutionPermission(jsonData.authId, jsonData.instId, accessCallback);
+                Permission.getInstitutionPermission(res.locals.authId, jsonData.instId, accessCallback);
             }
             else {
                 return Pager.jsonError(res, 'request_not_existent');
@@ -137,4 +137,17 @@ exports.denyRequest = function(req, res) {
     else {
         return Pager.jsonError(res, 'auth_required');
     }
+}
+
+exports.listRequestsByInstitution = function(req, res) {
+    var listRequestsCallback = function(error, response, jsonData) {
+        if(jsonData) {
+            Pager.jsonData(res, response, jsonData);
+        }
+        else {
+            Pager.jsonError(res, response);
+        }
+    }
+
+    Request.listRequestsByInstitution(req.params.inst, listRequestsCallback);
 }

@@ -1,49 +1,60 @@
-<md-toolbar class="md-medium-tall">
-    <md-toolbar-tools layout="row" layout-padding layout-align="left center">
-        <h4 md-truncate>
-            <i class="material-icons md-flex-align-icon md-avatar-icon">assignment_ind</i>
-            <span>Personal Marks Situation</span>
-        </h4>
-    </md-toolbar-tools>
-</md-toolbar>
-<md-content md-whiteframe="2">
-    <md-tabs md-dynamic-height md-border-bottom md-theme="default">
-        <md-tab label="Trimester I">
-            <div flex layout-padding class="md-table-container mdl-shadow--4dp">
-                <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable md-table-span">
-                    <thead>
-                    <tr>
-                        <th class="mdl-data-table__cell--non-numeric">Course</th>
-                        <th>Mark</th>
-                        <th>Date</th>
-                        <th>By</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="mdl-data-table__cell--non-numeric">Mathematics</td>
-                        <td>10</td>
-                        <td>Today</td>
-                        <td>Mariana Coada</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </md-tab>
-        <md-tab label="Trimester II">
-            <md-content class="md-padding">
-                <h1 class="md-display-1">Trimester II</h1>
-            </md-content>
-        </md-tab>
-        <md-tab label="Trimester III">
-            <md-content class="md-padding">
-                <h1 class="md-display-1">Trimester III</h1>
-            </md-content>
-        </md-tab>
-        <md-tab label="Overall Situation">
-            <md-content class="md-padding">
-                <h1 class="md-display-1">Overall Situation</h1>
-            </md-content>
-        </md-tab>
-    </md-tabs>
+<md-content ng-init="listCourses()">
+    <div flex="100" layout="column">
+        <md-card>
+            <md-card-title>
+                <md-card-title-text>
+                    <span class="md-headline">Courses</span>
+                    <span class="md-subhead">You currently have {{ coursesLeft.length + coursesRight.length }} courses in your institution.</span>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="end center">
+                <md-button ng-href="/institution/courses/create" class="md-primary md-raised">
+                    <i class="material-icons md-flex-align-icon">add_circle</i>
+                    <span>Create Class</span>
+                </md-button>
+            </md-card-actions>
+        </md-card>
+    </div>
+    <div layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="50" layout="column">
+            <md-card ng-repeat="course in coursesLeft">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ course.name }}</span>
+                        <span class="md-subhead">{{ course.createdDate | date: 'medium' }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-href="/institution/course/{{ course._id }}">
+                        <i class="material-icons md-flex-align-icon">settings</i>
+                        <span>Manage</span>
+                    </md-button>
+                    <md-button ng-click="removeCourse($event)">
+                        <i class="material-icons md-flex-align-icon">delete</i>
+                        <span>Remove Course</span>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+        <div flex-xs flex-gt-xs="50" layout="column">
+            <md-card ng-repeat="course in coursesRight">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ course.name }}</span>
+                        <span class="md-subhead">{{ course.createdDate | date: 'medium' }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-href="/institution/course/{{ course._id }}">
+                        <i class="material-icons md-flex-align-icon">settings</i>
+                        <span>Manage</span>
+                    </md-button>
+                    <md-button ng-click="removeCourse($event)">
+                        <i class="material-icons md-flex-align-icon">delete</i>
+                        <span>Remove Course</span>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </div>
 </md-content>

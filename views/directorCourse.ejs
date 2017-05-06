@@ -1,0 +1,27 @@
+<md-toolbar class="md-medium-tall" ng-init="loadCourseSettings()">
+    <md-toolbar-tools layout="row" layout-padding layout-align="left center">
+        <h4 md-truncate>
+            <i class="material-icons md-flex-align-icon md-avatar-icon">library_books</i>
+            <span>Course</span>
+        </h4>
+    </md-toolbar-tools>
+</md-toolbar>
+<md-content md-whiteframe="2">
+    <md-list>
+        <md-list-item>
+            <p>Add a New Teacher</p>
+
+            <md-select ng-model="associate" placeholder="Available Teachers" class="md-no-underline md-secondary">
+                <md-option ng-repeat="teacherAvailable in teachersAvailable" value="teacherAvailable" ng-click="assocTeacherToCourse(teacherAvailable)">{{ teacherAvailable.authName }}</md-option>
+            </md-select>
+        </md-list-item>
+        <md-divider></md-divider>
+        <md-subheader>Teachers</md-subheader>
+        <md-list-item ng-repeat="teacher in teachers">
+            <p>{{ teacher.teacherName }}</p>
+            <md-icon class="md-secondary" ng-click="dissocTeacherFromCourse(teacher)">
+                <i class="material-icons">close</i>
+            </md-icon>
+        </md-list-item>
+    </md-list>
+</md-content>

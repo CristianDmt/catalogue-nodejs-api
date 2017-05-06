@@ -1,42 +1,60 @@
-<md-content layout-xs="column" layout="row">
-    <div flex-xs flex-gt-xs="50" layout="column">
+<md-content ng-init="listClasses()">
+    <div flex="100" layout="column">
         <md-card>
             <md-card-title>
                 <md-card-title-text>
-                    <span class="md-headline">12A</span>
-                    <span class="md-subhead">Created on 26 April, 2017</span>
+                    <span class="md-headline">Classes</span>
+                    <span class="md-subhead">You currently have {{ classesLeft.length + classesRight.length }} classes in your institution.</span>
                 </md-card-title-text>
             </md-card-title>
             <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-href="/parent/student/situation/ID">
-                    <i class="material-icons md-flex-align-icon">assignment_ind</i>
-                    <span>View Situation</span>
-                </md-button>
-                <md-button ng-click="removeStudent($event)">
-                    <i class="material-icons md-flex-align-icon">delete</i>
-                    <span>Remove Class</span>
+                <md-button ng-href="/institution/classes/create" class="md-primary md-raised">
+                    <i class="material-icons md-flex-align-icon">add_circle</i>
+                    <span>Create Class</span>
                 </md-button>
             </md-card-actions>
         </md-card>
     </div>
-    <div flex-xs flex-gt-xs="50" layout="column">
-        <md-card>
-            <md-card-title>
-                <md-card-title-text>
-                    <span class="md-headline">12B</span>
-                    <span class="md-subhead">Created on 26 April, 2017</span>
-                </md-card-title-text>
-            </md-card-title>
-            <md-card-actions layout="row" layout-align="end center">
-                <md-button ng-href="/parent/student/situation/ID">
-                    <i class="material-icons md-flex-align-icon">assignment_ind</i>
-                    <span>View Situation</span>
-                </md-button>
-                <md-button ng-click="removeStudent($event)">
-                    <i class="material-icons md-flex-align-icon">delete</i>
-                    <span>Remove Class</span>
-                </md-button>
-            </md-card-actions>
-        </md-card>
+    <div layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="50" layout="column">
+            <md-card ng-repeat="class in classesLeft">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ class.name }}</span>
+                        <span class="md-subhead">{{ class.createdDate | date: 'medium' }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-href="/institution/class/{{ class._id }}">
+                        <i class="material-icons md-flex-align-icon">settings</i>
+                        <span>Manage</span>
+                    </md-button>
+                    <md-button ng-click="removeClass($event)">
+                        <i class="material-icons md-flex-align-icon">delete</i>
+                        <span>Remove Class</span>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+        <div flex-xs flex-gt-xs="50" layout="column">
+            <md-card ng-repeat="class in classesRight">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ class.name }}</span>
+                        <span class="md-subhead">{{ class.createdDate | date: 'medium' }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-href="/institution/class/{{ class._id }}">
+                        <i class="material-icons md-flex-align-icon">settings</i>
+                        <span>Manage</span>
+                    </md-button>
+                    <md-button ng-click="removeClass($event)">
+                        <i class="material-icons md-flex-align-icon">delete</i>
+                        <span>Remove Class</span>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
     </div>
 </md-content>

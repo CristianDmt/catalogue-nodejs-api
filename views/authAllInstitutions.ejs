@@ -1,0 +1,36 @@
+<md-content ng-init="listInstitutions()">
+    <div layout-xs="column" layout="row">
+        <div flex-xs flex-gt-xs="50" layout="column">
+            <md-card ng-repeat="inst in instLeft">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ inst.name }}</span>
+                        <span class="md-subhead">{{ inst.createdDate | date: 'medium' }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-click="makeRequest(inst)">
+                        <i class="material-icons md-flex-align-icon">add_circle</i>
+                        <span>Request Access</span>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+        <div flex-xs flex-gt-xs="50" layout="column">
+            <md-card ng-repeat="inst in instRight">
+                <md-card-title>
+                    <md-card-title-text>
+                        <span class="md-headline">{{ inst.name }}</span>
+                        <span class="md-subhead">{{ inst.createdDate | date: 'medium' }}</span>
+                    </md-card-title-text>
+                </md-card-title>
+                <md-card-actions layout="row" layout-align="end center">
+                    <md-button ng-click="makeRequest(inst)">
+                        <i class="material-icons md-flex-align-icon">add_circle</i>
+                        <span>Request Access</span>
+                    </md-button>
+                </md-card-actions>
+            </md-card>
+        </div>
+    </div>
+</md-content>

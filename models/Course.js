@@ -16,7 +16,10 @@ exports.createCourse = function(instId, courseName, callback) {
         createdDate: Moment()
     });
 
-    newCourse.save().then(function(success) {
+    newCourse.save().then(function(jsonData) {
+        newCourse._strId = jsonData._id;
+        newCourse.save();
+
         return callback(null, 'course_created');
     }).catch(function(error) {
         console.log(error);
@@ -39,7 +42,7 @@ exports.listCourse = function(instId, callback) {
 }
 
 exports.getCourse = function(courseId, callback) {
-    Course.findOne({ _id: courseId }, {}).then(function(jsonData) {
+    Course.findOne({ _id: courseId }).then(function(jsonData) {
         if(jsonData) {
             callback(null, jsonData);
         }

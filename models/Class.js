@@ -19,7 +19,10 @@ exports.createClass = function(instId, className, callback) {
                 createdDate: Moment()
             });
 
-            newClass.save().then(function() {
+            newClass.save().then(function(jsonData) {
+                newClass._strId = jsonData._id;
+                newClass.save();
+
                 return callback(null, 'class_created');
             }).catch(function (error) {
                 console.log(error);
@@ -35,7 +38,7 @@ exports.createClass = function(instId, className, callback) {
 }
 
 exports.listClass = function(instId, callback) {
-    Class.find({ instId: instId }, 'name').then(function(jsonData) {
+    Class.find({ instId: instId }, 'name createdDate').then(function(jsonData) {
         if(jsonData) {
             return callback(null, 'class_list_retrieved', jsonData);
         }

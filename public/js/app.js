@@ -54,14 +54,39 @@ app.config(function($routeProvider, $locationProvider, $qProvider, $mdThemingPro
             templateUrl: '/template/student/situation'
         })
 
+        .when('/institutions/all', {
+            controller: 'Auth',
+            templateUrl: '/template/institutions/all'
+        })
+
+        .when('/institution/class/:class', {
+            controller: 'Director',
+            templateUrl: '/template/institution/class'
+        })
+
         .when('/institution/classes', {
             controller: 'Director',
             templateUrl: '/template/institution/classes'
         })
 
+        .when('/institution/classes/create', {
+            controller: 'Director',
+            templateUrl: '/template/institution/classes/create'
+        })
+
+        .when('/institution/course/:course', {
+            controller: 'Director',
+            templateUrl: '/template/institution/course'
+        })
+
         .when('/institution/courses', {
             controller: 'Director',
             templateUrl: '/template/institution/courses'
+        })
+
+        .when('/institution/courses/create', {
+            controller: 'Director',
+            templateUrl: '/template/institution/courses/create'
         })
 
         .when('/institution/permissions', {
@@ -82,7 +107,18 @@ app.config(function($routeProvider, $locationProvider, $qProvider, $mdThemingPro
         .when('/institution/settings', {
             controller: 'Director',
             templateUrl: '/template/institution/settings'
-        });
+        })
+
+        .when('/mark/create', {
+            controller: 'Teacher',
+            templateUrl: '/template/institution/requests'
+        })
+
+        .when('/marks/view/:student', {
+            controller: 'Teacher',
+            templateUrl: '/template/marks/view'
+        })
+    ;
 
     $locationProvider.html5Mode(true);
 
