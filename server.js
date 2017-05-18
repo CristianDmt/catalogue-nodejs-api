@@ -139,4 +139,4 @@ http.createServer(app).listen(app.get('port'), function() {
 
 app.get('/api*', function(req, res) { res.json({ status: 'error', response: 'unknown_api_request', code: 404 }) });
 app.post('/api*', function(req, res) { res.json({ status: 'error', response: 'unknown_api_request', code: 404 }) });
-app.get('/*', controllers.index);
+app.get('/*', controllers.index);;
